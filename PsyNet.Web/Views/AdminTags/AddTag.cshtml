@@ -1,0 +1,38 @@
+﻿@model PsyNet.Web.Models.ViewModels.AddTagRequest
+<script src="~/js/site.js"></script>
+
+<div class="bg-secondary bg-opacity-10 py-2">
+
+    <div class="container">
+        <h1>Add New Tag - Admin Functionality</h1>
+    </div>
+</div>
+
+<div class="container py-5">
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" id="tagName" asp-for="TagName" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Display Name</label>
+            <input type="text" class="form-control" id="displayName" asp-for="DisplayName" />
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-dark">Submit</button>
+        </div>
+    </form>
+
+</div>
+
+<script>
+        document.getElementById("tagName").addEventListener("input", function(e) {
+        if (e.target.value.includes(" ")) {
+            alert("Spaces are not allowed in the Name field.");
+            e.target.value = e.target.value.replace(/\s/g, "");
+        }
+    });
+
+</script>
