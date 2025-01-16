@@ -36,14 +36,17 @@ namespace PsyNet.Web.Controllers
 
             return RedirectToAction("TagList");
         }
+        
         [HttpGet]
-
+        
         public async Task<IActionResult> TagList()
         {
             var tags = await tagRepository.GetAllAsync();
 
             return View(tags);
         }
+       
+        
 
         [HttpGet]
         public async Task<IActionResult> EditTag(Guid Id)

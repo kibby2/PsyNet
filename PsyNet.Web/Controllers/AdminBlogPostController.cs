@@ -4,7 +4,9 @@ namespace PsyNet.Web.Controllers
 {
     public class AdminBlogPostController : Controller
     {
-        public IActionResult Index()
+
+        [HttpGet]
+        public IActionResult Add()
         {
             return View();
         }
