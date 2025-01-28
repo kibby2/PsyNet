@@ -1,9 +1,9 @@
-﻿namespace PsyNet.Web.Models.Domain
-{
-    public class BlogPost
-    {
-        public Guid Id { get; set; }
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
+namespace PsyNet.Web.Models.ViewModels
+{
+    public class AddBlogPostRequest
+    {
         public string Heading { get; set; }
 
         public string PageTitle { get; set; }
@@ -22,9 +22,9 @@
 
         public bool Visible { get; set; }
 
-        //Navigation property
-        public ICollection<Tag> Tags { get; set; }
+        // Display tags
+        public IEnumerable<SelectListItem> Tags { get; set; }
+        // Collect Tag
+        public string[] SelectedTags { get; set; } = Array.Empty<string>();
     }
-
-
 }
