@@ -112,5 +112,69 @@ namespace PsyNet.Web.Controllers
             return View(null);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditBlogPostRequest editBlogPostRequest)
+        {
+            // Map view model to domain model
+            var blogPostDomainModel = new BlogPost
+            {
+                Id = editBlogPostRequest.Id,
+                Heading = editBlogPostRequest.Heading,
+                PageTitle = editBlogPostRequest.PageTitle,
+                Content = editBlogPostRequest.Content,
+                ShortDescription = editBlogPostRequest.ShortDescription,
+                FeaturedImageUrl = editBlogPostRequest.FeaturedImageUrl,
+                UrlHandle = editBlogPostRequest.UrlHandle,
+                PublishedDate = editBlogPostRequest.PublishedDate,
+                Author = editBlogPostRequest.Author,
+                Visible = editBlogPostRequest.Visible,
+            };
+            // Map tags into domain model
+
+            var selectedTags = new List<Tag>();
+            foreach (var selectedTag in editBlogPostRequest.SelectedTags)
+            {
+                if (Guid.TryParse(selectedTag, out var tag))
+                {
+                    var foundTag = await tagRepository.GetAsync(tag);
+
+                    if (foundTag != null)
+                    {
+                        selectedTags.Add(foundTag);
+                    }
+                }
+            }
+
+            blogPostDomainModel.Tags = selectedTags;
+
+            // Submit information to repository to update
+            var updatedBlog = await blogPostRepository.UpdateAsync(blogPostDomainModel);
+
+            if (updatedBlog != null)
+            {
+                // Show success notification
+                return RedirectToAction("Edit");
+            }
+
+            // Show error notification
+            return RedirectToAction("Edit");
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Delete(EditBlogPostRequest editBlogPostRequest)
+        {
+            // Talk to repository to delete this blog post and tags
+            var deletedBlogPost = await blogPostRepository.DeleteAsync(editBlogPostRequest.Id);
+
+            if (deletedBlogPost != null)
+            {
+                // Show success notification
+                return RedirectToAction("List");
+            }
+
+            // Show error notification
+            return RedirectToAction("Edit", new { id = editBlogPostRequest.Id });
+        }
     }
 }
