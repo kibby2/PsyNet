@@ -81,9 +81,13 @@
 
 @section Scripts {
 	<script>
-		var editor = new FroalaEditor('#content');
+		var editor = new FroalaEditor('#content', {
+			imageUploadURL: '/api/images',
+		});
 
 		const featuredUploadElement = document.getElementById('featuredImageUpload');
+		const featuredImageUrlElement = document.getElementById('featuredImageUrl');
+		const featuredImageDisplayElement = document.getElementById('featuredImageDisplay');
 
 		async function uploadFeaturedImage(e) {
 			console.log(e.target.files[0]);
@@ -99,7 +103,9 @@
 				body: data
 			}).then(response => response.json())
 				.then(result => {
-					console.log(result);
+					featuredImageUrlElement.value = result.link;
+					featuredImageDisplayElement.src = result.link;
+					featuredImageDisplayElement.style.display = 'block';
 				});
 		}
 

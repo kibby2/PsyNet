@@ -1,21 +1,33 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using PsyNet.Web.Models;
+using PsyNet.Web.Models.ViewModels;
+using PsyNet.Web.Repositories;
 
 namespace PsyNet.Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IBlogPostRepository blogPostRepository;
+        private readonly ITagRepository tagRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IBlogPostRepository blogPostRepository, ITagRepository tagRepository)
         {
             _logger = logger;
+            this.blogPostRepository = blogPostRepository;
+            this.tagRepository = tagRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            // getting all blogs
+            var blogPosts = await blogPostRepository.GetAllAsync();
+
+            // get all tags
+            var tags = await tagRepository.GetAllAsync();
+
+            return View(blogPosts);
         }
 
         public IActionResult Privacy()
