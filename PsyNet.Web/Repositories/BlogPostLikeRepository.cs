@@ -19,9 +19,9 @@ namespace PsyNet.Web.Repositories
             return blogPostLike;
         }
 
-        public Task<IEnumerable<BlogPostLike>> GetLikesForBlog(Guid blogPostId)
+        public async Task<IEnumerable<BlogPostLike>> GetLikesForBlog(Guid blogPostId)
         {
-            throw new NotImplementedException();
+            return await psyNetDbContext.BlogPostLike.Where(x => x.BlogPostId == blogPostId).ToListAsync();
         }
 
         public async Task<int> GetTotalLikes(Guid blogPostId)
