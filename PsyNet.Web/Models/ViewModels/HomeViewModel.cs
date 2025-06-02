@@ -1,6 +1,11 @@
-﻿namespace PsyNet.Web.Models.ViewModels
+﻿using PsyNet.Web.Models.Domain;
+
+namespace PsyNet.Web.Models.ViewModels
 {
     public class HomeViewModel
     {
+        public IEnumerable<BlogPost> BlogPosts { get; set; }
+
+        public IEnumerable<Tag> Tags { get; set; }
     }
 }

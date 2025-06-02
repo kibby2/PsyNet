@@ -2,9 +2,11 @@
 using PsyNet.Web.Models.ViewModels;
 using PsyNet.Web.Models.Domain;
 using PsyNet.Web.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PsyNet.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminTagsController : Controller
 
     {
@@ -15,11 +17,13 @@ namespace PsyNet.Web.Controllers
             this.tagRepository = tagRepository;
         }
 
+        
         [HttpGet]
         public IActionResult AddTag()
         {
             return View();
         }
+        
         [HttpPost]
         [ActionName("AddTag")]
 
@@ -38,7 +42,7 @@ namespace PsyNet.Web.Controllers
         }
         
         [HttpGet]
-        
+
         public async Task<IActionResult> TagList()
         {
             var tags = await tagRepository.GetAllAsync();

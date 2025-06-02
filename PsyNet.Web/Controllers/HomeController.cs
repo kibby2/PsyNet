@@ -27,7 +27,13 @@ namespace PsyNet.Web.Controllers
             // get all tags
             var tags = await tagRepository.GetAllAsync();
 
-            return View(blogPosts);
+            var model = new HomeViewModel
+            {
+                BlogPosts = blogPosts,
+                Tags = tags
+            };
+
+            return View(model);
         }
 
         public IActionResult Privacy()

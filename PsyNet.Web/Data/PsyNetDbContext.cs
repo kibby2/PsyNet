@@ -6,13 +6,15 @@ namespace PsyNet.Web.Data
 {
     public class PsyNetDbContext : DbContext
     {
-        public PsyNetDbContext(DbContextOptions options) : base(options)
+        public PsyNetDbContext(DbContextOptions<PsyNetDbContext> options) : base(options)
         {
         }
 
         public DbSet<BlogPost> BlogPosts { get; set; }
 
         public DbSet<Tag> Tags { get; set; }
+
+        public DbSet<BlogPostLike> BlogPostLike { get; set; }
     }
 }
 

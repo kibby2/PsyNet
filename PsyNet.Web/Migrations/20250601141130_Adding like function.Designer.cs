@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PsyNet.Web.Data;
 
@@ -11,9 +12,11 @@ using PsyNet.Web.Data;
 namespace PsyNet.Web.Migrations
 {
     [DbContext(typeof(PsyNetDbContext))]
-    partial class PsyNetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250601141130_Adding like function")]
+    partial class Addinglikefunction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
