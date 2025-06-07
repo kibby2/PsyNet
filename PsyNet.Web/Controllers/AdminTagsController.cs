@@ -29,6 +29,10 @@ namespace PsyNet.Web.Controllers
 
         public async Task<IActionResult> AddTag(AddTagRequest addTagRequest)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
             //Mapping AddTagRequest to Tag Domain model
             var tag = new Tag
             {
