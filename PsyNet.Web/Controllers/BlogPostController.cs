@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PsyNet.Web.Models.ViewModels;
 using PsyNet.Web.Repositories;
@@ -11,27 +12,40 @@ namespace PsyNet.Web.Controllers
     {
         private readonly ITagRepository tagRepository;
         private readonly IBlogPostRepository blogPostRepository;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public BlogPostController(ITagRepository tagRepository, IBlogPostRepository blogPostRepository)
+        public BlogPostController(ITagRepository tagRepository, IBlogPostRepository blogPostRepository, UserManager<IdentityUser> userManager)
         {
             this.tagRepository = tagRepository;
             this.blogPostRepository = blogPostRepository;
+            _userManager = userManager;
         }
         [HttpGet]
         public async Task<IActionResult> Add()
         {
+            // Get tags for the dropdown
             var tags = await tagRepository.GetAllAsync();
+
+            // Get current user
+            var user = await _userManager.GetUserAsync(User);
+            string authorName = user?.UserName ?? "Unknown";
+
 
             var model = new AddBlogPostRequest
             {
-                Tags = tags.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() })
+                Tags = tags.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }),
+                Author = authorName
             };
+
             return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(AddBlogPostRequest addBlogPostRequest)
         {
+            // Ensure the author is always set to current user regardless of form submission
+            addBlogPostRequest.Author = User.Identity.Name;
+
             // Map view model to domain model
             var blogPost = new BlogPost
             {
