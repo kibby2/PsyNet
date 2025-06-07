@@ -21,20 +21,18 @@ namespace PsyNet.Web.Controllers
             _userManager = userManager;
         }
         [HttpGet]
-        public async Task<IActionResult> Add()
+        public IActionResult Add()
         {
             // Get tags for the dropdown
-            var tags = await tagRepository.GetAllAsync();
-
-            // Get current user
-            var user = await _userManager.GetUserAsync(User);
-            string authorName = user?.UserName ?? "Unknown";
-
+            var tags = tagRepository.GetAllAsync().Result;
 
             var model = new AddBlogPostRequest
             {
                 Tags = tags.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }),
-                Author = authorName
+                // Auto-set today's date
+                PublishedDate = DateTime.Today,
+                // Set the author to current user
+                Author = User.Identity.Name
             };
 
             return View(model);
@@ -43,7 +41,8 @@ namespace PsyNet.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddBlogPostRequest addBlogPostRequest)
         {
-            // Ensure the author is always set to current user regardless of form submission
+            // Set current date & author
+            addBlogPostRequest.PublishedDate = DateTime.Today;
             addBlogPostRequest.Author = User.Identity.Name;
 
             // Map view model to domain model
@@ -57,7 +56,7 @@ namespace PsyNet.Web.Controllers
                 UrlHandle = addBlogPostRequest.UrlHandle,
                 PublishedDate = addBlogPostRequest.PublishedDate,
                 Author = addBlogPostRequest.Author,
-                Visible = addBlogPostRequest.Visible,
+                Visible = addBlogPostRequest.Visible
             };
 
             // Map Tags from selected tags
@@ -72,12 +71,17 @@ namespace PsyNet.Web.Controllers
                     selectedTags.Add(existingTag);
                 }
             }
-
-            // Mapping tags back to domain model
+            //Mapping tags back to domain model
             blogPost.Tags = selectedTags;
 
             await blogPostRepository.AddAsync(blogPost);
-            return RedirectToAction("Add");
+
+            // Add success notification
+            TempData["NotificationMessage"] = "Blog post added successfully!";
+            TempData["NotificationType"] = "success";
+
+            // Redirect to home page
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -126,6 +130,7 @@ namespace PsyNet.Web.Controllers
             return View(null);
         }
 
+        // Edit action (POST)
         [HttpPost]
         public async Task<IActionResult> Edit(EditBlogPostRequest editBlogPostRequest)
         {
@@ -166,8 +171,11 @@ namespace PsyNet.Web.Controllers
 
             if (updatedBlog != null)
             {
-                // Show success notification
-                return RedirectToAction("Edit");
+                // Add success notification
+                TempData["NotificationMessage"] = "Blog post updated successfully!";
+                TempData["NotificationType"] = "success";
+
+                return RedirectToAction("Index", "Home");
             }
 
             // Show error notification
@@ -183,8 +191,11 @@ namespace PsyNet.Web.Controllers
 
             if (deletedBlogPost != null)
             {
-                // Show success notification
-                return RedirectToAction("List");
+                // Add success notification
+                TempData["NotificationMessage"] = "Blog post deleted successfully!";
+                TempData["NotificationType"] = "warning";
+
+                return RedirectToAction("Index", "Home");
             }
 
             // Show error notification
