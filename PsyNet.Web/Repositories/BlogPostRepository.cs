@@ -35,7 +35,10 @@ namespace PsyNet.Web.Repositories
 
         public async Task<IEnumerable<BlogPost>> GetAllAsync()
         {
-            return await psyNetDbContext.BlogPosts.Include(x => x.Tags).ToListAsync();
+            return await psyNetDbContext.BlogPosts
+                .Include(x => x.Tags)
+                .OrderByDescending(x => x.PublishedDate)
+                .ToListAsync();
         }
 
 
