@@ -1,0 +1,60 @@
+@model PsyNet.Web.Models.ViewModels.BlogReportsViewModel
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>Blog Reports - Admin</h1>
+    </div>
+</div>
+
+<div class="container py-5">
+    @if (Model.Reports != null && Model.Reports.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Blog Title</th>
+                    <th>Blog Author</th>
+                    <th>Reported By</th>
+                    <th>Report Comment</th>
+                    <th>Report Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var report in Model.Reports)
+                {
+                    <tr>
+                        <td>@report.BlogTitle</td>
+                        <td>@report.BlogAuthor</td>
+                        <td>@report.ReporterName</td>
+                        <td>@report.ReportComment</td>
+                        <td>@report.ReportDate.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <div class="d-flex">
+                                <a asp-controller="Blogs" asp-action="Index" asp-route-urlHandle="@report.BlogUrlHandle"
+                                    class="btn btn-primary btn-sm me-1">View Blog</a>
+
+                                <form method="post" asp-controller="BlogReport" asp-action="Resolve">
+                                    <input type="hidden" name="reportId" value="@report.ReportId" />
+                                    <button type="submit" class="btn btn-success btn-sm me-1">Dismiss</button>
+                                </form>
+
+                                <form method="post" asp-controller="BlogReport" asp-action="DeleteBlog"
+                                    onsubmit="return confirm('Are you sure you want to delete this blog post?');">
+                                    <input type="hidden" name="reportId" value="@report.ReportId" />
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete Blog</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            There are no blog reports at this time.
+        </div>
+    }
+</div> 

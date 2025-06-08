@@ -91,6 +91,15 @@
 					</div>
 				</div>
 
+				@if (SignInManager.IsSignedIn(User) && User.Identity.Name != Model.Author)
+				{
+					<div class="mt-3">
+						<a asp-controller="BlogReport" asp-action="Report" asp-route-blogId="@Model.Id" 
+						   class="btn btn-outline-danger">
+							<i class="bi bi-flag"></i> Report Inappropriate Content
+						</a>
+					</div>
+				}
 
 			}
 			else

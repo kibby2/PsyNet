@@ -201,5 +201,24 @@ namespace PsyNet.Web.Controllers
             // Show error notification
             return RedirectToAction("Edit", new { id = editBlogPostRequest.Id });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> UserBlogs()
+        {
+            // Check if user is authenticated
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Get current username
+            var currentUsername = User.Identity.Name;
+
+            // Get blogs by this author
+            var userBlogs = await blogPostRepository.GetBlogsByAuthorAsync(currentUsername);
+
+            // Return view with user's blogs
+            return View(userBlogs);
+        }
     }
 }

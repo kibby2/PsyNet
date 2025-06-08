@@ -7,7 +7,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - PsyNet.Web</title>
+	<title>@ViewData["Title"] - PsyNet</title>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/PsyNet.Web.styles.css" asp-append-version="true" />
@@ -72,6 +72,11 @@
 											All Users
 										</a>
 									</li>
+									<li>
+										<a class="dropdown-item" asp-area="" asp-controller="BlogReport" asp-action="List">
+											View Blog Reports
+										</a>
+									</li>
 								</ul>
 							</li>
 
@@ -90,7 +95,7 @@
 							<a class="btn me-3 bg-light text-dark" asp-area="" asp-controller="BlogPost"
 								asp-action="Add">Make Blog</a>
 							<a class="btn me-3 bg-light text-dark" asp-area="" asp-controller="BlogPost"
-								asp-action="List">My Blogs</a>
+								asp-action="UserBlogs">My Blogs</a>
 							<a class="btn me-3 bg-light text-dark" asp-area="" asp-controller="Account"
 								asp-action="Logout">Logout</a>
 						}

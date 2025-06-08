@@ -1,0 +1,57 @@
+@model IEnumerable<PsyNet.Web.Models.Domain.BlogPost>
+
+@{
+    ViewData["Title"] = "My Blogs";
+}
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>My Blogs</h1>
+    </div>
+</div>
+
+<div class="container py-5">
+    @if (Model != null && Model.Any())
+    {
+        <div class="mb-3 d-flex justify-content-end">
+            <a class="btn btn-dark" asp-controller="BlogPost" asp-action="Add">Add New Blog</a>
+        </div>
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var blog in Model)
+                {
+                    <tr>
+                        <td>@blog.Heading</td>
+                        <td>@(blog.Visible ? "Published" : "Draft")</td>
+                        <td>@blog.PublishedDate.ToShortDateString()</td>
+                        <td>
+                            <a class="btn btn-primary" asp-controller="BlogPost" asp-action="Edit" asp-route-id="@blog.Id">
+                                <i class="bi bi-pencil"></i> Edit
+                            </a>
+                            <a class="btn btn-secondary" asp-controller="Blogs" asp-action="Index" asp-route-urlHandle="@blog.UrlHandle">
+                                <i class="bi bi-eye"></i> View
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <h3>You haven't created any blogs yet</h3>
+            <p class="mb-4">Share your thoughts by creating your first blog post</p>
+            <a class="btn btn-dark" asp-controller="BlogPost" asp-action="Add">Create Your First Blog</a>
+        </div>
+    }
+</div>

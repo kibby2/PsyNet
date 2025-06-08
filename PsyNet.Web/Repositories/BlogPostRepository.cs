@@ -78,5 +78,14 @@ namespace PsyNet.Web.Repositories
 
             return null;
         }
+
+        public async Task<IEnumerable<BlogPost>> GetBlogsByAuthorAsync(string authorName)
+        {
+            return await psyNetDbContext.BlogPosts
+                .Where(x => x.Author == authorName)
+                .Include(x => x.Tags)
+                .OrderByDescending(x => x.PublishedDate)
+                .ToListAsync();
+        }
     }
 }
