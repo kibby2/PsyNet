@@ -1,0 +1,34 @@
+@model PsyNet.Web.Models.ViewModels.ReportCommentViewModel
+
+<div class="container py-5">
+    <h1>Report Inappropriate Comment</h1>
+    <h3>On Blog: @Model.BlogPostTitle</h3>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5>Comment by @Model.CommentAuthor</h5>
+        </div>
+        <div class="card-body">
+            <p>@Model.CommentContent</p>
+            
+            <form method="post" asp-controller="CommentReport" asp-action="SubmitReport">
+                <input type="hidden" asp-for="CommentId" />
+                <input type="hidden" asp-for="BlogPostId" />
+                <input type="hidden" asp-for="BlogPostTitle" />
+                <input type="hidden" asp-for="CommentContent" />
+                <input type="hidden" asp-for="CommentAuthor" />
+
+                <div class="mb-3">
+                    <label class="form-label">Why is this comment inappropriate? (optional)</label>
+                    <textarea class="form-control" asp-for="Comment" rows="4"
+                        placeholder="Please describe why you're reporting this comment..."></textarea>
+                </div>
+
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-danger">Submit Report</button>
+                    <a class="btn btn-secondary ms-2" onclick="history.back()">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

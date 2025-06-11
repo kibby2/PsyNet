@@ -1,0 +1,60 @@
+@model PsyNet.Web.Models.ViewModels.CommentReportsViewModel
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>Comment Reports - Admin</h1>
+    </div>
+</div>
+
+<div class="container py-5">
+    @if (Model.Reports != null && Model.Reports.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Comment Author</th>
+                    <th>Reported By</th>
+                    <th>Comment Content</th>
+                    <th>Report Reason</th>
+                    <th>Report Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var report in Model.Reports)
+                {
+                    <tr>
+                        <td>@report.CommentAuthor</td>
+                        <td>@report.ReporterName</td>
+                        <td>@report.CommentContent</td>
+                        <td>@report.ReportComment</td>
+                        <td>@report.ReportDate.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <div class="d-flex">
+                                <a asp-controller="Blogs" asp-action="Index" asp-route-urlHandle="@report.BlogUrlHandle"
+                                    class="btn btn-primary btn-sm me-1">View Blog</a>
+
+                                <form method="post" asp-controller="CommentReport" asp-action="Resolve">
+                                    <input type="hidden" name="reportId" value="@report.ReportId" />
+                                    <button type="submit" class="btn btn-success btn-sm me-1">Dismiss</button>
+                                </form>
+
+                                <form method="post" asp-controller="CommentReport" asp-action="DeleteComment"
+                                    onsubmit="return confirm('Are you sure you want to delete this comment?');">
+                                    <input type="hidden" name="reportId" value="@report.ReportId" />
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete Comment</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            There are no comment reports at this time.
+        </div>
+    }
+</div>

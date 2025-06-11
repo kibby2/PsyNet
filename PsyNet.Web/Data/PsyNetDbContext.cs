@@ -19,6 +19,8 @@ namespace PsyNet.Web.Data
         public DbSet<BlogPostComment> BlogPostComment { get; set; }
 
         public DbSet<BlogReport> BlogReports { get; set; }
+
+        public DbSet<CommentReport> CommentReports { get; set; }
     }
 }
 

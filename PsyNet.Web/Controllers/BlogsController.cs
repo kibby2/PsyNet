@@ -15,7 +15,7 @@ namespace PsyNet.Web.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly IBlogPostCommentRepository blogPostCommentRepository;
 
-        public BlogsController(IBlogPostRepository blogPostRepository, 
+        public BlogsController(IBlogPostRepository blogPostRepository,
             IBlogPostLikeRepository blogPostLikeRepository,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
@@ -61,6 +61,7 @@ namespace PsyNet.Web.Controllers
                 {
                     blogCommentsForView.Add(new BlogComment
                     {
+                        Id = blogComment.Id,
                         Description = blogComment.Description,
                         DateAdded = blogComment.DateAdded,
                         Username = (await userManager.FindByIdAsync(blogComment.UserId.ToString())).UserName
@@ -90,7 +91,7 @@ namespace PsyNet.Web.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Index(BlogDetailsViewModel blogDetailsViewModel)
-        {   
+        {
             if (signInManager.IsSignedIn(User))
             {
                 var domainModel = new BlogPostComment
@@ -101,12 +102,12 @@ namespace PsyNet.Web.Controllers
                     DateAdded = DateTime.Now
                 };
                 await blogPostCommentRepository.AddAsync(domainModel);
-                return RedirectToAction("Index", "Blogs", 
+                return RedirectToAction("Index", "Blogs",
                     new { urlHandle = blogDetailsViewModel.UrlHandle });
             }
 
             return View();
-           
+
         }
     }
 }

@@ -5,8 +5,9 @@ namespace PsyNet.Web.Repositories
     public interface IBlogPostCommentRepository
     {
         Task<BlogPostComment> AddAsync(BlogPostComment blogPostComment);
-
         Task<IEnumerable<BlogPostComment>> GetCommentsByBlogIdAsync(Guid blogPostId);
+        Task<BlogPostComment> GetByIdAsync(Guid id);
+        Task<BlogPostComment> DeleteAsync(Guid id);
     }
 }
 

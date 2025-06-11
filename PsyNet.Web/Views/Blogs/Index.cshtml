@@ -84,6 +84,17 @@
 											<span class="text-secondary">@comment.Username</span>
 											<span class="text-secondary">@comment.DateAdded.ToShortDateString()</span>
 										</div>
+										
+										@if (SignInManager.IsSignedIn(User) && User.Identity.Name != comment.Username)
+										{
+											<div class="mt-2">
+												<a asp-controller="CommentReport" asp-action="Report"
+												   asp-route-commentId="@comment.Id" asp-route-blogPostId="@Model.Id"
+												   class="btn btn-sm btn-outline-danger">
+													<i class="bi bi-flag"></i> Report
+												</a>
+											</div>
+										}
 									</div>
 								</div>
 							}
