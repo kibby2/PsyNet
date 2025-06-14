@@ -9,6 +9,14 @@
 </div>
 
 <div class="container py-5">
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger" role="alert">
+            <h6>Please correct the following errors:</h6>
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
     <form method="post">
         <div class="mb-3">
             <label class="form-label">Name</label>
@@ -30,7 +38,7 @@
 </div>
 
 <script>
-        document.getElementById("tagName").addEventListener("input", function(e) {
+    document.getElementById("tagName").addEventListener("input", function (e) {
         if (e.target.value.includes(" ")) {
             alert("Spaces are not allowed in the Name field.");
             e.target.value = e.target.value.replace(/\s/g, "");

@@ -8,7 +8,15 @@
     </div>
 </div>
 
-<div class="bg-secondary bg-opacity-10 py2">
+<div class="container py-5">
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger" role="alert">
+            <h6>Please correct the following errors:</h6>
+            @Html.ValidationSummary(true)
+        </div>
+    }
+
     @if (Model != null)
     {
         <form method="post">
@@ -17,25 +25,24 @@
                 <label class="form-label">Id</label>
                 <input type="text" id="id" class="form-control" asp-for="Id" readonly />
             </div>
-
             <div class="mb-3">
                 <label class="form-label">Name</label>
                 <input type="text" id="name" class="form-control" asp-for="Name" />
+                <span class="text-danger" asp-validation-for="Name"></span>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Display Name</label>
                 <input type="text" id="displayName" class="form-control" asp-for="DisplayName" />
+                <span class="text-danger" asp-validation-for="DisplayName"></span>
             </div>
 
             <div class="mb-3">
                 <div class="d-flex">
                     <button type="submit" class="btn btn-dark">Update</button>
 
-                    <button class="btn btn-danger ms-2" type="submit"
-                            asp-area=""
-                            asp-controller="AdminTags"
-                            asp-action="Delete">
+                    <button class="btn btn-danger ms-2" type="submit" asp-area="" asp-controller="AdminTags"
+                        asp-action="Delete">
                         Delete
                     </button>
                 </div>
@@ -52,7 +59,7 @@
 </div>
 
 <script>
-    document.getElementById("name").addEventListener("input", function(e) {
+    document.getElementById("name").addEventListener("input", function (e) {
         if (e.target.value.includes(" ")) {
             alert("Spaces are not allowed in the Name field.");
             e.target.value = e.target.value.replace(/\s/g, "");
@@ -61,3 +68,4 @@
 </script>
 
 
+ 

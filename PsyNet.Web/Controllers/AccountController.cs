@@ -61,8 +61,6 @@ namespace PsyNet.Web.Controllers
 
             return View(model);
         }
-
-
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
@@ -84,7 +82,8 @@ namespace PsyNet.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            // Show errors
+            // Show error message for failed login
+            ModelState.AddModelError(string.Empty, "User does not exist or incorrect password.");
             return View();
         }
 

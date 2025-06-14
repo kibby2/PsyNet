@@ -79,6 +79,10 @@ namespace PsyNet.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> EditTag(EditTagRequest editTagRequest)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(editTagRequest);
+            }
 
             var tag = new Tag
             {
@@ -95,7 +99,7 @@ namespace PsyNet.Web.Controllers
                 return RedirectToAction("TagList");
             }
 
-            return RedirectToAction("Edit", new { id = editTagRequest.Id });
+            return RedirectToAction("EditTag", new { id = editTagRequest.Id });
         }
 
 
