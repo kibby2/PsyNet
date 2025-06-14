@@ -15,7 +15,8 @@ namespace PsyNet.Web.Controllers
         public BlogPostLikeController(IBlogPostLikeRepository blogPostLikeRepository)
         {
             this.blogPostLikeRepository = blogPostLikeRepository;
-        }        [HttpPost]
+        }
+        [HttpPost]
         [Route("Add")]
         public async Task<IActionResult> AddLike([FromBody] AddLikeRequest addLikeRequest)
         {

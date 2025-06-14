@@ -9,6 +9,23 @@
 	ViewData["Title"] = Model.PageTitle;
 }
 <div class="container my-5">
+	
+	@* Notification Messages *@
+	@if (TempData["Success"] != null)
+	{
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			@TempData["Success"]
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	}
+	@if (TempData["Error"] != null)
+	{
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			@TempData["Error"]
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	}
+
 	<div class="row justify-content-center">
 		<div class="col-12 col-lg-6">
 
@@ -102,19 +119,31 @@
 												<div>
 													@comment.Description
 												</div>
-											</div>
-										</div>
+											</div>										</div>
 										
-										@if (SignInManager.IsSignedIn(User) && User.Identity.Name != comment.Username)
-										{
-											<div class="mt-2">
+										<div class="mt-2 d-flex gap-2">
+											@if (SignInManager.IsSignedIn(User) && User.Identity.Name == comment.Username)
+											{
+												<!-- Delete button for own comments -->
+												<form method="post" asp-controller="BlogPostComment" asp-action="Delete" style="display: inline;">
+													<input type="hidden" name="commentId" value="@comment.Id" />
+													<input type="hidden" name="urlHandle" value="@Model.UrlHandle" />
+													<button type="submit" class="btn btn-sm btn-outline-danger" 
+													        onclick="return confirm('Are you sure you want to delete this comment?')">
+														<i class="bi bi-trash"></i> Delete
+													</button>
+												</form>
+											}
+											@if (SignInManager.IsSignedIn(User) && User.Identity.Name != comment.Username)
+											{
+												<!-- Report button for other users' comments -->
 												<a asp-controller="CommentReport" asp-action="Report"
 												   asp-route-commentId="@comment.Id" asp-route-blogPostId="@Model.Id"
-												   class="btn btn-sm btn-outline-danger">
+												   class="btn btn-sm btn-outline-warning">
 													<i class="bi bi-flag"></i> Report
 												</a>
-											</div>
-										}
+											}
+										</div>
 									</div>
 								</div>
 							}
