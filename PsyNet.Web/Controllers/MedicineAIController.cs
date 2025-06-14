@@ -173,6 +173,45 @@ namespace PsyNet.Web.Controllers
             }
         }
 
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> DeletePatient(Guid id)
+        {
+            try
+            {
+                var userId = userManager.GetUserId(User);
+                var patient = await patientRepository.GetByIdAsync(id);
+
+                if (patient == null || patient.UserId != userId)
+                {
+                    TempData["NotificationMessage"] = "Patient not found or access denied.";
+                    TempData["NotificationType"] = "error";
+                    return RedirectToAction("SavedPatients");
+                }
+
+                var deleted = await patientRepository.DeleteAsync(id);
+                
+                if (deleted)
+                {
+                    TempData["NotificationMessage"] = "Patient record deleted successfully.";
+                    TempData["NotificationType"] = "success";
+                }
+                else
+                {
+                    TempData["NotificationMessage"] = "Failed to delete patient record.";
+                    TempData["NotificationType"] = "error";
+                }
+
+                return RedirectToAction("SavedPatients");
+            }
+            catch (Exception)
+            {
+                TempData["NotificationMessage"] = "An error occurred while deleting the patient record.";
+                TempData["NotificationType"] = "error";
+                return RedirectToAction("SavedPatients");
+            }
+        }
+
         private string MapAgeToGroup(int age)
         {
             return age switch

@@ -20,19 +20,21 @@ namespace PsyNet.Web.Services
             await Task.Delay(10); // Simulate async processing
             
             var recommendations = new List<MedicineRecommendation>();
-            
-            // Find similar users based on age, sex, and condition
+              // Find similar users based on age, sex, and condition
             var similarUsers = _drugData
                 .Where(d => d.Age == age && 
-                           d.Gender.Equals(sex, StringComparison.OrdinalIgnoreCase) && 
+                           (d.Gender.Equals("male", StringComparison.OrdinalIgnoreCase) && sex.Equals("Male", StringComparison.OrdinalIgnoreCase) ||
+                            d.Gender.Equals("female", StringComparison.OrdinalIgnoreCase) && sex.Equals("Female", StringComparison.OrdinalIgnoreCase)) && 
                            d.Condition.Contains(condition, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
             if (!similarUsers.Any())
             {
-                // Fallback: find users with same condition
+                // Fallback: find users with same condition and sex
                 similarUsers = _drugData
-                    .Where(d => d.Condition.Contains(condition, StringComparison.OrdinalIgnoreCase))
+                    .Where(d => (d.Gender.Equals("male", StringComparison.OrdinalIgnoreCase) && sex.Equals("Male", StringComparison.OrdinalIgnoreCase) ||
+                                d.Gender.Equals("female", StringComparison.OrdinalIgnoreCase) && sex.Equals("Female", StringComparison.OrdinalIgnoreCase)) &&
+                               d.Condition.Contains(condition, StringComparison.OrdinalIgnoreCase))
                     .ToList();
             }
 
@@ -126,9 +128,7 @@ namespace PsyNet.Web.Services
             {
                 return GetFallbackData();
             }
-        }
-
-        private List<DrugData> GetFallbackData()
+        }        private List<DrugData> GetFallbackData()
         {
             return new List<DrugData>
             {
@@ -139,7 +139,9 @@ namespace PsyNet.Web.Services
                 new DrugData { DrugName = "Aripiprazole", Condition = "Bipolar Disorder", Age = "35-44", Gender = "Female", Text = "Effective mood stabilizer" },
                 new DrugData { DrugName = "Lithium", Condition = "Bipolar Disorder", Age = "45-54", Gender = "Male", Text = "Long-term stability achieved" },
                 new DrugData { DrugName = "Risperidone", Condition = "Schizophrenia", Age = "25-34", Gender = "Male", Text = "Reduced hallucinations effectively" },
-                new DrugData { DrugName = "Quetiapine", Condition = "Schizophrenia", Age = "35-44", Gender = "Female", Text = "Improved cognitive symptoms" }
+                new DrugData { DrugName = "Quetiapine", Condition = "Schizophrenia", Age = "35-44", Gender = "Female", Text = "Improved cognitive symptoms" },
+                new DrugData { DrugName = "Venlafaxine", Condition = "Depression", Age = "45-54", Gender = "Female", Text = "Excellent results for severe depression" },
+                new DrugData { DrugName = "Lorazepam", Condition = "Anxiety", Age = "35-44", Gender = "Male", Text = "Fast-acting anxiety relief" }
             };
         }
 
