@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PsyNet.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public class AdminTagsController : Controller
 
     {
@@ -17,13 +17,13 @@ namespace PsyNet.Web.Controllers
             this.tagRepository = tagRepository;
         }
 
-        
+
         [HttpGet]
         public IActionResult AddTag()
         {
             return View();
         }
-        
+
         [HttpPost]
         [ActionName("AddTag")]
 
@@ -44,7 +44,7 @@ namespace PsyNet.Web.Controllers
 
             return RedirectToAction("TagList");
         }
-        
+
         [HttpGet]
 
         public async Task<IActionResult> TagList()
@@ -53,8 +53,8 @@ namespace PsyNet.Web.Controllers
 
             return View(tags);
         }
-       
-        
+
+
 
         [HttpGet]
         public async Task<IActionResult> EditTag(Guid Id)

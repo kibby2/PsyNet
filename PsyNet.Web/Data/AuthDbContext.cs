@@ -46,26 +46,28 @@ namespace PsyNet.Web.Data
                     Id = userRoleId,
                     ConcurrencyStamp = userRoleId
                 }
-            };
-
-            builder.Entity<IdentityRole>().HasData(roles);
+            }; builder.Entity<IdentityRole>().HasData(roles);
 
             // Seed SuperAdminUser
             var superAdminId = "472ba632-6133-44a1-b158-6c10bd7d850d";
-            var superAdminUser = new IdentityUser
+            var superAdminUser = new ApplicationUser
             {
                 UserName = "superadmin",
                 Email = "superadmin@psynet.com",
                 NormalizedEmail = "superadmin@psynet.com".ToUpper(),
                 NormalizedUserName = "superadmin".ToUpper(),
                 Id = superAdminId,
-                PasswordHash = "AQAAAAEAACcQAAAAEMa8/m6Ay8/LDOECUHmozo3iQ8D4uEEnL3GOeev6SH7/by8oEBYnOUOO9DFzDnOPeQ==",// Precomputed hash for "123456"
+                PasswordHash = "AQAAAAEAACcQAAAAEMa8/m6Ay8/LDOECUHmozo3iQ8D4uEEnL3GOeev6SH7/by8oEBYnOUOO9DFzDnOPeQ==", // Precomputed hash for "123456"
                 ConcurrencyStamp = "7717894b-32a8-4e55-9b32-97771559b802", // Hardcoded value
-                SecurityStamp = "51ada72a-ecde-47d9-8eae-3df46910689d" // Hardcoded value
+                SecurityStamp = "51ada72a-ecde-47d9-8eae-3df46910689d", // Hardcoded value
+                FirstName = "Super",
+                LastName = "Admin",
+                Bio = "System Administrator",
+                CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             };
 
 
-            builder.Entity<IdentityUser>().HasData(superAdminUser);
+            builder.Entity<ApplicationUser>().HasData(superAdminUser);
 
 
             // Add All roles to SuperAdminUser

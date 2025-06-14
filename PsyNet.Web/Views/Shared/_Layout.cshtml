@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using PsyNet.Web.Models.Domain
 @inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,12 +31,10 @@
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-					<ul class="navbar-nav flex-grow-1">
-						<li class="nav-item">
-							<a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+					<ul class="navbar-nav flex-grow-1">						<li class="nav-item">						<li class="nav-item">							<a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 						</li>
 
-						@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+						@if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
 						{
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -45,34 +44,35 @@
 								<ul class="dropdown-menu">
 									<li>
 										<a class="dropdown-item" asp-area="" asp-controller="AdminTags" asp-action="AddTag">
-											Add Tag
+											<i class="bi bi-tag"></i> Add Tag
 										</a>
 									</li>
 									<li>
 										<a class="dropdown-item" asp-area="" asp-controller="AdminTags"
 											asp-action="TagList">
-											View Tags
+											<i class="bi bi-tags"></i> View Tags
 										</a>
 									</li>
 									<li>
 										<a class="dropdown-item" asp-area="" asp-controller="BlogPost" asp-action="Add">
-											Add blog
+											<i class="bi bi-plus-circle"></i> Add Blog
 										</a>
 									</li>
+									<li><hr class="dropdown-divider"></li>
 									<li>
 										<a class="dropdown-item" asp-area="" asp-controller="AdminUsers" asp-action="List">
-											All Users
+											<i class="bi bi-people"></i> Manage Users
 										</a>
 									</li>
 									<li>
 										<a class="dropdown-item" asp-area="" asp-controller="BlogReport" asp-action="List">
-											View Blog Reports
+											<i class="bi bi-flag"></i> View Reported Blogs
 										</a>
 									</li>
 									<li>
 										<a class="dropdown-item" asp-area="" asp-controller="CommentReport"
 											asp-action="List">
-											View Comment Reports
+											<i class="bi bi-chat-square-text"></i> View Reported Comments
 										</a>
 									</li>
 								</ul>
@@ -81,15 +81,27 @@
 						}
 
 
-					</ul>					<div class="d-flex align-items-center">
-
-						@if (SignInManager.IsSignedIn(User))
+					</ul>					<div class="d-flex align-items-center">						@if (SignInManager.IsSignedIn(User))
 						{
+							var currentUser = await UserManager.GetUserAsync(User);
+							var profilePictureUrl = currentUser?.ProfilePictureUrl;
+							
 							<!-- User Dropdown -->
 							<div class="dropdown me-3">
-								<button class="btn bg-light text-dark dropdown-toggle" type="button" id="userDropdown" 
+								<button class="btn bg-light text-dark dropdown-toggle d-flex align-items-center user-dropdown-btn" type="button" id="userDropdown" 
 								        data-bs-toggle="dropdown" aria-expanded="false">
-									<i class="bi bi-person-circle"></i> @User?.Identity?.Name
+									@if (!string.IsNullOrEmpty(profilePictureUrl))
+									{
+										<img src="@profilePictureUrl" alt="Profile" 
+										     class="rounded-circle me-2 profile-pic-header" style="width: 32px; height: 32px; object-fit: cover;">
+									}									else
+									{
+										<div class="rounded-circle me-2 d-flex align-items-center justify-content-center header-avatar-placeholder" 
+										     style="width: 32px; height: 32px;">
+											<i class="bi bi-person-fill text-white" style="font-size: 1rem;"></i>
+										</div>
+									}
+									<span class="d-none d-md-inline">@User?.Identity?.Name</span>
 								</button>
 								<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
 									<li>
@@ -167,6 +179,35 @@
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
+	<style>
+		/* Profile picture styling */
+		.profile-pic-header {
+			border: 2px solid #fff;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		}
+		
+		.profile-pic-comment {
+			border: 2px solid #f8f9fa;
+			box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+		}
+		
+		.user-dropdown-btn {
+			border: none !important;
+			box-shadow: none !important;
+		}
+		
+		.user-dropdown-btn:focus {
+			box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+		}
+		
+		.comment-avatar-placeholder {
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		}
+		
+		.header-avatar-placeholder {
+			background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+		}
+	</style>
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
 

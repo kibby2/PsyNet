@@ -52,16 +52,16 @@ namespace PsyNet.Web.Controllers
                 //Get commenys for blog post
                 var blogCommentsDomainModel = await blogPostCommentRepository.GetCommentsByBlogIdAsync(blogPost.Id);
 
-                var blogCommentsForView = new List<BlogComment>();
-
-                foreach (var blogComment in blogCommentsDomainModel)
+                var blogCommentsForView = new List<BlogComment>(); foreach (var blogComment in blogCommentsDomainModel)
                 {
+                    var commentUser = await userManager.FindByIdAsync(blogComment.UserId.ToString());
                     blogCommentsForView.Add(new BlogComment
                     {
                         Id = blogComment.Id,
                         Description = blogComment.Description,
                         DateAdded = blogComment.DateAdded,
-                        Username = (await userManager.FindByIdAsync(blogComment.UserId.ToString())).UserName
+                        Username = commentUser.UserName,
+                        ProfilePictureUrl = commentUser.ProfilePictureUrl
                     });
                 }
                 blogDetailsViewModel = new BlogDetailsViewModel

@@ -87,9 +87,8 @@ namespace PsyNet.Web.Controllers
 
             return RedirectToAction("Index", "Blogs", new { urlHandle = blogPost.UrlHandle });
         }
-
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> List()
         {
             var reports = await blogReportRepository.GetAllAsync();
@@ -100,9 +99,8 @@ namespace PsyNet.Web.Controllers
 
             return View(viewModel);
         }
-
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> Resolve(Guid reportId)
         {
             await blogReportRepository.ResolveAsync(reportId);
@@ -112,9 +110,8 @@ namespace PsyNet.Web.Controllers
 
             return RedirectToAction("List");
         }
-
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> DeleteBlog(Guid reportId)
         {
             var report = await blogReportRepository.GetByIdAsync(reportId);

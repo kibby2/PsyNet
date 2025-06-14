@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PsyNet.Web.Data;
@@ -17,7 +18,8 @@ builder.Services.AddDbContext<AuthDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PsyNetAuthDbConnectionString")));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<AuthDbContext>();
+    .AddEntityFrameworkStores<AuthDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -27,6 +29,9 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireUppercase = false;
     options.Password.RequiredLength = 6;
     options.Password.RequiredUniqueChars = 0;
+
+    // Ensure roles are included in claims
+    options.ClaimsIdentity.RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
 });
 
 builder.Services.AddScoped<ITagRepository, TagRepository>();
@@ -41,6 +46,9 @@ builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IMedicineRecommendationRepository, MedicineRecommendationRepository>();
 builder.Services.AddScoped<IMedicineRecommendationService, MedicineRecommendationService>();
 builder.Services.AddScoped<IProfilePictureService, ProfilePictureService>();
+
+// Add claims transformation to include roles
+builder.Services.AddScoped<IClaimsTransformation, RoleClaimsTransformation>();
 
 var app = builder.Build();
 

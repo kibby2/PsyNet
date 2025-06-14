@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using PsyNet.Web.Models;
 using PsyNet.Web.Models.ViewModels;
 using PsyNet.Web.Repositories;
 
 namespace PsyNet.Web.Controllers
-{
-    public class HomeController : Controller
+{    public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IBlogPostRepository blogPostRepository;
@@ -41,8 +41,7 @@ namespace PsyNet.Web.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]        public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }

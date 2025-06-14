@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PsyNet.Web.Data;
 
@@ -11,9 +12,11 @@ using PsyNet.Web.Data;
 namespace PsyNet.Web.Migrations.AuthDb
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250614113525_FixSuperAdminUserProfile")]
+    partial class FixSuperAdminUserProfile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -287,7 +290,6 @@ namespace PsyNet.Web.Migrations.AuthDb
                             CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "superadmin@psynet.com",
                             EmailConfirmed = false,
-                            FirstName = "Super",
                             LastName = "Admin",
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@PSYNET.COM",

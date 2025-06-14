@@ -7,7 +7,7 @@ using PsyNet.Web.Repositories;
 
 namespace PsyNet.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public class AdminUsersController : Controller
     {
         private readonly IUserRepository userRepository;
