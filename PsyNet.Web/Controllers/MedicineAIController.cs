@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PsyNet.Web.Models.Domain;
 using PsyNet.Web.Models.ViewModels;
 using PsyNet.Web.Repositories;
 using PsyNet.Web.Services;
@@ -12,13 +13,13 @@ namespace PsyNet.Web.Controllers
     {
         private readonly IPatientRepository patientRepository;
         private readonly IMedicineRecommendationRepository medicineRecommendationRepository;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly IMedicineRecommendationService medicineRecommendationService;
 
         public MedicineAIController(
             IPatientRepository patientRepository,
             IMedicineRecommendationRepository medicineRecommendationRepository,
-            UserManager<IdentityUser> userManager,
+            UserManager<ApplicationUser> userManager,
             IMedicineRecommendationService medicineRecommendationService)
         {
             this.patientRepository = patientRepository;
@@ -32,7 +33,8 @@ namespace PsyNet.Web.Controllers
         {
             var viewModel = new AddPatientViewModel();
             return View(viewModel);
-        }        [HttpPost]
+        }
+        [HttpPost]
         public async Task<IActionResult> Recommend(AddPatientViewModel model)
         {
             if (!ModelState.IsValid)
@@ -102,7 +104,7 @@ namespace PsyNet.Web.Controllers
                 }
 
                 var patients = await patientRepository.GetPatientsByUserIdAsync(userId);
-                
+
                 var viewModel = new SavedPatientsViewModel
                 {
                     Patients = patients.Select(p => new PatientSummaryViewModel
@@ -118,7 +120,8 @@ namespace PsyNet.Web.Controllers
                 };
 
                 return View(viewModel);
-            }            catch (Exception)
+            }
+            catch (Exception)
             {
                 TempData["NotificationMessage"] = "An error occurred while loading saved patients.";
                 TempData["NotificationType"] = "error";
@@ -165,7 +168,8 @@ namespace PsyNet.Web.Controllers
                 };
 
                 return View(viewModel);
-            }            catch (Exception)
+            }
+            catch (Exception)
             {
                 TempData["NotificationMessage"] = "An error occurred while loading patient details.";
                 TempData["NotificationType"] = "error";
@@ -190,7 +194,7 @@ namespace PsyNet.Web.Controllers
                 }
 
                 var deleted = await patientRepository.DeleteAsync(id);
-                
+
                 if (deleted)
                 {
                     TempData["NotificationMessage"] = "Patient record deleted successfully.";
@@ -217,7 +221,7 @@ namespace PsyNet.Web.Controllers
             return age switch
             {
                 <= 24 => "18-24",
-                <= 34 => "25-34", 
+                <= 34 => "25-34",
                 <= 44 => "35-44",
                 <= 54 => "45-54",
                 <= 64 => "55-64",

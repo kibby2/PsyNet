@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PsyNet.Web.Data;
+using PsyNet.Web.Models.Domain;
 using PsyNet.Web.Repositories;
 using PsyNet.Web.Services;
 
@@ -15,7 +16,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("PsyNetDbConnecti
 builder.Services.AddDbContext<AuthDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PsyNetAuthDbConnectionString")));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AuthDbContext>();
 
 builder.Services.Configure<IdentityOptions>(options =>
@@ -39,6 +40,7 @@ builder.Services.AddScoped<ICommentReportRepository, CommentReportRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IMedicineRecommendationRepository, MedicineRecommendationRepository>();
 builder.Services.AddScoped<IMedicineRecommendationService, MedicineRecommendationService>();
+builder.Services.AddScoped<IProfilePictureService, ProfilePictureService>();
 
 var app = builder.Build();
 

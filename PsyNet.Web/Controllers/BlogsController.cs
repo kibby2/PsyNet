@@ -10,15 +10,12 @@ namespace PsyNet.Web.Controllers
     public class BlogsController : Controller
     {
         private readonly IBlogPostRepository blogPostRepository;
-        private readonly IBlogPostLikeRepository blogPostLikeRepository;
-        private readonly SignInManager<IdentityUser> signInManager;
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly IBlogPostCommentRepository blogPostCommentRepository;
-
-        public BlogsController(IBlogPostRepository blogPostRepository,
+        private readonly IBlogPostLikeRepository blogPostLikeRepository; private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IBlogPostCommentRepository blogPostCommentRepository; public BlogsController(IBlogPostRepository blogPostRepository,
             IBlogPostLikeRepository blogPostLikeRepository,
-            SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager,
             IBlogPostCommentRepository blogPostCommentRepository)
         {
             this.blogPostRepository = blogPostRepository;

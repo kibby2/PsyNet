@@ -11,11 +11,11 @@ namespace PsyNet.Web.Controllers
     {
         private readonly IBlogReportRepository blogReportRepository;
         private readonly IBlogPostRepository blogPostRepository;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
 
         public BlogReportController(IBlogReportRepository blogReportRepository,
                                     IBlogPostRepository blogPostRepository,
-                                    UserManager<IdentityUser> userManager)
+                                    UserManager<ApplicationUser> userManager)
         {
             this.blogReportRepository = blogReportRepository;
             this.blogPostRepository = blogPostRepository;
@@ -72,12 +72,12 @@ namespace PsyNet.Web.Controllers
             // Create the report 
             var report = new BlogReport
             {
-                BlogPostId = model.BlogPostId, 
+                BlogPostId = model.BlogPostId,
                 ReporterUserId = userId,
                 Comment = model.Comment ?? "No comment provided",
                 ReportDate = DateTime.Now,
                 Resolved = false
-                
+
             };
 
             await blogReportRepository.AddAsync(report);

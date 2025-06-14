@@ -1,0 +1,140 @@
+@model PsyNet.Web.Models.ViewModels.UserProfileViewModel
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <i class="bi bi-person-circle"></i> My Profile
+                    </h3>
+                </div>
+                <div class="card-body">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <!-- Profile Picture Section -->
+                            <div class="mb-3">
+                                @if (!string.IsNullOrEmpty(Model.ProfilePictureUrl))
+                                {
+                                    <img src="@Model.ProfilePictureUrl" alt="Profile Picture" 
+                                         class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                                }
+                                else
+                                {
+                                    <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center mx-auto" 
+                                         style="width: 150px; height: 150px;">
+                                        <i class="bi bi-person-fill text-white" style="font-size: 4rem;"></i>
+                                    </div>
+                                }
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <a href="@Url.Action("Edit", "UserProfile")" class="btn btn-outline-primary">
+                                    <i class="bi bi-pencil"></i> Edit Profile
+                                </a>
+                                <a href="@Url.Action("ChangePassword", "UserProfile")" class="btn btn-outline-secondary">
+                                    <i class="bi bi-lock"></i> Change Password
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <!-- Profile Information -->
+                            <div class="row mb-3">
+                                <div class="col-sm-4"><strong>Username:</strong></div>
+                                <div class="col-sm-8">@Model.Username</div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-sm-4"><strong>Email:</strong></div>
+                                <div class="col-sm-8">@Model.Email</div>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(Model.FirstName) || !string.IsNullOrEmpty(Model.LastName))
+                            {
+                                <div class="row mb-3">
+                                    <div class="col-sm-4"><strong>Full Name:</strong></div>
+                                    <div class="col-sm-8">@Model.FirstName @Model.LastName</div>
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                            {
+                                <div class="row mb-3">
+                                    <div class="col-sm-4"><strong>Phone:</strong></div>
+                                    <div class="col-sm-8">@Model.PhoneNumber</div>
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.Bio))
+                            {
+                                <div class="row mb-3">
+                                    <div class="col-sm-4"><strong>Bio:</strong></div>
+                                    <div class="col-sm-8">@Model.Bio</div>
+                                </div>
+                            }
+
+                            <div class="row mb-3">
+                                <div class="col-sm-4"><strong>Member Since:</strong></div>
+                                <div class="col-sm-8">@Model.JoinDate.ToString("MMMM dd, yyyy")</div>
+                            </div>
+
+                            <!-- Statistics Section -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h5 class="text-primary">Activity Statistics</h5>
+                                    <hr>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-sm-4"><strong>Blog Posts:</strong></div>
+                                <div class="col-sm-8">
+                                    <span class="badge bg-primary">@Model.TotalBlogPosts</span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-sm-4"><strong>Patient Records:</strong></div>
+                                <div class="col-sm-8">
+                                    <span class="badge bg-info">@Model.TotalPatients</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border: none;
+        border-radius: 15px;
+    }
+    
+    .card-header {
+        border-radius: 15px 15px 0 0 !important;
+    }
+    
+    .btn {
+        border-radius: 8px;
+    }
+    
+    .rounded-circle {
+        border: 3px solid #f8f9fa;
+    }
+</style>

@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PsyNet.Web.Models.Domain;
 using PsyNet.Web.Models.ViewModels;
 
 namespace PsyNet.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -25,7 +26,7 @@ namespace PsyNet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var identityUser = new IdentityUser
+                var identityUser = new ApplicationUser
                 {
                     UserName = registerViewModel.Username,
                     Email = registerViewModel.Email

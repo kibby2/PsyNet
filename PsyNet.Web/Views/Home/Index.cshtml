@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<Microsoft.AspNetCore.Identity.IdentityUser> SignInManager
+@using PsyNet.Web.Models.Domain
+@inject SignInManager<ApplicationUser> SignInManager
 @{
 	ViewData["Title"] = "Home Page";
 }

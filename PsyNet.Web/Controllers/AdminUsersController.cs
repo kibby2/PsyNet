@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PsyNet.Web.Models.Domain;
 using PsyNet.Web.Models.ViewModels;
 using PsyNet.Web.Repositories;
 
@@ -10,10 +11,8 @@ namespace PsyNet.Web.Controllers
     public class AdminUsersController : Controller
     {
         private readonly IUserRepository userRepository;
-        private readonly UserManager<IdentityUser> userManager;
-
-        public AdminUsersController(IUserRepository userRepository,
-            UserManager<IdentityUser> userManager)
+        private readonly UserManager<ApplicationUser> userManager; public AdminUsersController(IUserRepository userRepository,
+            UserManager<ApplicationUser> userManager)
         {
             this.userRepository = userRepository;
             this.userManager = userManager;
@@ -43,7 +42,7 @@ namespace PsyNet.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> List(UserViewModel request)
         {
-            var identityUser = new IdentityUser
+            var identityUser = new ApplicationUser
             {
                 UserName = request.Username,
                 Email = request.Email

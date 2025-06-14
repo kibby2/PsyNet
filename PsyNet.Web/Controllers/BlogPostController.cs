@@ -12,9 +12,9 @@ namespace PsyNet.Web.Controllers
     {
         private readonly ITagRepository tagRepository;
         private readonly IBlogPostRepository blogPostRepository;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public BlogPostController(ITagRepository tagRepository, IBlogPostRepository blogPostRepository, UserManager<IdentityUser> userManager)
+        public BlogPostController(ITagRepository tagRepository, IBlogPostRepository blogPostRepository, UserManager<ApplicationUser> userManager)
         {
             this.tagRepository = tagRepository;
             this.blogPostRepository = blogPostRepository;

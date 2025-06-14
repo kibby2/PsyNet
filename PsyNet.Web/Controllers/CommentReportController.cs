@@ -12,13 +12,13 @@ namespace PsyNet.Web.Controllers
         private readonly ICommentReportRepository commentReportRepository;
         private readonly IBlogPostCommentRepository blogPostCommentRepository;
         private readonly IBlogPostRepository blogPostRepository;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
 
         public CommentReportController(
             ICommentReportRepository commentReportRepository,
             IBlogPostCommentRepository blogPostCommentRepository,
             IBlogPostRepository blogPostRepository,
-            UserManager<IdentityUser> userManager)
+            UserManager<ApplicationUser> userManager)
         {
             this.commentReportRepository = commentReportRepository;
             this.blogPostCommentRepository = blogPostCommentRepository;

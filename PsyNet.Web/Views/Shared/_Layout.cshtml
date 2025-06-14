@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
+@using PsyNet.Web.Models.Domain
+@inject SignInManager<ApplicationUser> SignInManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -80,21 +81,53 @@
 						}
 
 
-					</ul>
-
-					<div class="d-flex align-items-center">
+					</ul>					<div class="d-flex align-items-center">
 
 						@if (SignInManager.IsSignedIn(User))
 						{
-							<div class="me-3 text-light">
-								<p>Welcome, @User?.Identity?.Name</p>
+							<!-- User Dropdown -->
+							<div class="dropdown me-3">
+								<button class="btn bg-light text-dark dropdown-toggle" type="button" id="userDropdown" 
+								        data-bs-toggle="dropdown" aria-expanded="false">
+									<i class="bi bi-person-circle"></i> @User?.Identity?.Name
+								</button>
+								<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+									<li>
+										<a class="dropdown-item" asp-area="" asp-controller="UserProfile" asp-action="Index">
+											<i class="bi bi-person"></i> My Profile
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item" asp-area="" asp-controller="BlogPost" asp-action="UserBlogs">
+											<i class="bi bi-journal-text"></i> My Blogs
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item" asp-area="" asp-controller="MedicineAI" asp-action="SavedPatients">
+											<i class="bi bi-heart-pulse"></i> My Patients
+										</a>
+									</li>
+									<li><hr class="dropdown-divider"></li>
+									<li>
+										<a class="dropdown-item" asp-area="" asp-controller="UserProfile" asp-action="Edit">
+											<i class="bi bi-gear"></i> Settings
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">
+											<i class="bi bi-box-arrow-right"></i> Logout
+										</a>
+									</li>
+								</ul>
 							</div>
-							<a class="btn me-3 bg-light text-dark" asp-area="" asp-controller="BlogPost"
-								asp-action="Add">Make Blog</a>
-							<a class="btn me-3 bg-light text-dark" asp-area="" asp-controller="BlogPost"
-								asp-action="UserBlogs">My Blogs</a>
-							<a class="btn me-3 bg-light text-dark" asp-area="" asp-controller="Account"
-								asp-action="Logout">Logout</a>
+							
+							<!-- Quick Actions -->
+							<a class="btn me-3 bg-light text-dark" asp-area="" asp-controller="BlogPost" asp-action="Add">
+								<i class="bi bi-plus-circle"></i> New Blog
+							</a>
+							<a class="btn me-3 bg-light text-dark" asp-area="" asp-controller="MedicineAI" asp-action="Recommend">
+								<i class="bi bi-capsule"></i> AI Medicine
+							</a>
 						}
 						else
 						{
