@@ -37,15 +37,20 @@ namespace PsyNet.Web.Controllers
 
             return View(model);
         }
-
         [HttpPost]
         public async Task<IActionResult> Add(AddBlogPostRequest addBlogPostRequest)
         {
             // Set current date & author
             addBlogPostRequest.PublishedDate = DateTime.Today;
-            addBlogPostRequest.Author = User.Identity.Name;
+            addBlogPostRequest.Author = User.Identity.Name ?? "Unknown";
 
-            // Map view model to domain model
+            if (!ModelState.IsValid)
+            {
+                // Reload tags for the dropdown
+                var tags = await tagRepository.GetAllAsync();
+                addBlogPostRequest.Tags = tags.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+                return View(addBlogPostRequest);
+            }            // Map view model to domain model
             var blogPost = new BlogPost
             {
                 Heading = addBlogPostRequest.Heading,
@@ -56,7 +61,7 @@ namespace PsyNet.Web.Controllers
                 UrlHandle = addBlogPostRequest.UrlHandle,
                 PublishedDate = addBlogPostRequest.PublishedDate,
                 Author = addBlogPostRequest.Author,
-                Visible = addBlogPostRequest.Visible
+                Visible = true // Default to visible since field is removed from form
             };
 
             // Map Tags from selected tags
@@ -100,8 +105,7 @@ namespace PsyNet.Web.Controllers
             var tagsDomainModel = await tagRepository.GetAllAsync();
 
             if (blogPost != null)
-            {
-                // map the domain model into the view model
+            {                // map the domain model into the view model
                 var model = new EditBlogPostRequest
                 {
                     Id = blogPost.Id,
@@ -113,7 +117,6 @@ namespace PsyNet.Web.Controllers
                     UrlHandle = blogPost.UrlHandle,
                     ShortDescription = blogPost.ShortDescription,
                     PublishedDate = blogPost.PublishedDate,
-                    Visible = blogPost.Visible,
                     Tags = tagsDomainModel.Select(x => new SelectListItem
                     {
                         Text = x.Name,
@@ -128,13 +131,17 @@ namespace PsyNet.Web.Controllers
 
 
             return View(null);
-        }
-
-        // Edit action (POST)
+        }        // Edit action (POST)
         [HttpPost]
         public async Task<IActionResult> Edit(EditBlogPostRequest editBlogPostRequest)
         {
-            // Map view model to domain model
+            if (!ModelState.IsValid)
+            {
+                // Reload tags for the dropdown
+                var tags = await tagRepository.GetAllAsync();
+                editBlogPostRequest.Tags = tags.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+                return View(editBlogPostRequest);
+            }            // Map view model to domain model
             var blogPostDomainModel = new BlogPost
             {
                 Id = editBlogPostRequest.Id,
@@ -146,7 +153,7 @@ namespace PsyNet.Web.Controllers
                 UrlHandle = editBlogPostRequest.UrlHandle,
                 PublishedDate = editBlogPostRequest.PublishedDate,
                 Author = editBlogPostRequest.Author,
-                Visible = editBlogPostRequest.Visible,
+                Visible = true, // Default to visible since field is removed from form
             };
             // Map tags into domain model
 

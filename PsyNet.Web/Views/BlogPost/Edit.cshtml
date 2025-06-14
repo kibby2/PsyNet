@@ -11,6 +11,13 @@
 	<div class="container py-5">
 		<form method="post">
 
+			@if (!ViewData.ModelState.IsValid)
+			{
+				<div class="alert alert-danger">
+					<div asp-validation-summary="All"></div>
+				</div>
+			}
+
 			<div class="mb-3">
 				<label class="form-label">Id</label>
 				<input type="text" class="form-control" id="id" asp-for="Id" readonly />
@@ -19,21 +26,25 @@
 			<div class="mb-3">
 				<label class="form-label">Heading</label>
 				<input type="text" class="form-control" id="heading" asp-for="Heading">
+				<span asp-validation-for="Heading" class="text-danger"></span>
 			</div>
 
 			<div class="mb-3">
 				<label class="form-label">Page Title</label>
 				<input type="text" class="form-control" id="pageTitle" asp-for="PageTitle" />
+				<span asp-validation-for="PageTitle" class="text-danger"></span>
 			</div>
 
 			<div class="mb-3">
 				<label class="form-label">Content</label>
 				<textarea class="form-control" id="content" asp-for="Content"></textarea>
+				<span asp-validation-for="Content" class="text-danger"></span>
 			</div>
 
 			<div class="mb-3">
 				<label class="form-label">Short Description</label>
 				<input type="text" class="form-control" id="shortDescription" asp-for="ShortDescription" />
+				<span asp-validation-for="ShortDescription" class="text-danger"></span>
 			</div>
 
 			<div class="mb-3">
@@ -53,11 +64,13 @@
 			<div class="mb-3">
 				<label class="form-label">Featured Image URL</label>
 				<input type="text" class="form-control" id="featuredImageUrl" asp-for="FeaturedImageUrl" />
+				<span asp-validation-for="FeaturedImageUrl" class="text-danger"></span>
 			</div>
 
 			<div class="mb-3">
 				<label class="form-label">URL Handle</label>
 				<input type="text" class="form-control" id="urlHandle" asp-for="UrlHandle" />
+				<span asp-validation-for="UrlHandle" class="text-danger"></span>
 			</div>
 
 			<div class="mb-3">
@@ -68,13 +81,6 @@
 			<div class="mb-3">
 				<label class="form-label">Author</label>
 				<input type="text" class="form-control" id="author" asp-for="Author" readonly />
-			</div>
-
-			<div class="form-check mb-3">
-				<input class="form-check-input" type="checkbox" id="visible" asp-for="Visible">
-				<label class="form-check-label">
-					Is Visible?
-				</label>
 			</div>
 
 			<div class="mb-3">

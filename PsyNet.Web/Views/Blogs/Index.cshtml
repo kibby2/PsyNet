@@ -45,9 +45,17 @@
 					{
 						<span class="badge bg-secondary me-1">@tag.Name</span>
 					}
-				</div>
-
-				<img src="@Model.FeaturedImageUrl" class="d-block img-fluid mb-3" />
+				</div>				@if (!string.IsNullOrEmpty(Model.FeaturedImageUrl))
+				{
+					<img src="@Model.FeaturedImageUrl" alt="@Model.Heading" class="d-block img-fluid mb-3" />
+				}
+				else
+				{
+					<div class="d-block img-fluid mb-3 bg-light text-center py-5 border rounded">
+						<i class="bi bi-image fs-1 text-muted"></i>
+						<p class="text-muted mt-2 mb-0">No Image Available</p>
+					</div>
+				}
 
 				<div class="mb-3 blog-details-content">
 					@Html.Raw(Model.Content)

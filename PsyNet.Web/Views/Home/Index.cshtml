@@ -96,8 +96,17 @@
 			{
 				foreach (var blogPost in Model.BlogPosts)
 				{
-					<div class="mb-5 bg-light box-shadow p-5">
-						<img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading" class="mb-2 d-block img-fluid" />
+					<div class="mb-5 bg-light box-shadow p-5"> @if (!string.IsNullOrEmpty(blogPost.FeaturedImageUrl))
+						{
+							<img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading" class="mb-2 d-block img-fluid" />
+						}
+								else
+						{
+							<div class="mb-2 d-block img-fluid bg-light text-center py-4 border rounded">
+								<i class="bi bi-image fs-3 text-muted"></i>
+								<p class="text-muted mt-2 mb-0 small">No Image Available</p>
+							</div>
+						}
 
 						<h2 class="mb-4">@blogPost.Heading</h2>
 						<p class="mb-4">
