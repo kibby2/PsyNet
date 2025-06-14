@@ -1,0 +1,114 @@
+@model PsyNet.Web.Models.ViewModels.SavedPatientsViewModel
+
+@{
+    ViewData["Title"] = "Saved Patients";
+}
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>Saved Patients</h1>
+        <p class="lead">View and manage your patient records and AI recommendations</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-person-lines-fill"></i> Your Patients</h2>
+        <a asp-controller="MedicineAI" asp-action="Recommend" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Add New Patient
+        </a>
+    </div>
+
+    @if (Model.Patients != null && Model.Patients.Any())
+    {
+        <div class="row">
+            @foreach (var patient in Model.Patients)
+            {
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header bg-light">
+                            <h5 class="card-title mb-0">
+                                @if (!string.IsNullOrEmpty(patient.PatientName))
+                                {
+                                    @patient.PatientName
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Patient #@patient.Id.ToString().Substring(0, 8)</span>
+                                }
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <strong>Age:</strong> @patient.Age years old
+                            </div>
+                            <div class="mb-2">
+                                <strong>Sex:</strong> @patient.Sex
+                            </div>
+                            <div class="mb-3">
+                                <strong>Condition:</strong>                                <p class="text-muted small">
+                                    @if (patient.Condition.Length > 100)
+                                    {
+                                        @(patient.Condition.Substring(0, 100) + "...")
+                                    }
+                                    else
+                                    {
+                                        @patient.Condition
+                                    }
+                                </p>
+                            </div>
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar"></i> Created: @patient.CreatedAt.ToString("MMM dd, yyyy")
+                                </small>
+                            </div>
+                            <div class="mb-3">
+                                <span class="badge bg-info">
+                                    @patient.RecommendationCount Recommendation(s)
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a asp-controller="MedicineAI" asp-action="PatientDetails" asp-route-id="@patient.Id" 
+                               class="btn btn-primary btn-sm w-100">
+                                <i class="bi bi-eye"></i> View Details & Recommendations
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <div class="mb-4">
+                <i class="bi bi-person-plus display-1 text-muted"></i>
+            </div>
+            <h3 class="text-muted">No Patients Found</h3>
+            <p class="lead text-muted mb-4">
+                You haven't added any patients yet. Start by adding your first patient to get AI medicine recommendations.
+            </p>
+            <a asp-controller="MedicineAI" asp-action="Recommend" class="btn btn-primary btn-lg">
+                <i class="bi bi-plus-circle"></i> Add Your First Patient
+            </a>
+        </div>
+    }
+
+    <div class="mt-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-info-circle"></i> About AI Recommendations</h5>
+                        <p class="card-text mb-0">
+                            Our AI system analyzes patient information to provide evidence-based medicine recommendations. 
+                            All recommendations should be reviewed by qualified healthcare professionals before implementation. 
+                            This system is designed to assist, not replace, professional medical judgment.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

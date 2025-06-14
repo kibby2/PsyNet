@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PsyNet.Web.Data;
 using PsyNet.Web.Repositories;
+using PsyNet.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,9 @@ builder.Services.AddScoped<IBlogPostCommentRepository, BlogPostCommentRepository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBlogReportRepository, BlogReportRepository>();
 builder.Services.AddScoped<ICommentReportRepository, CommentReportRepository>();
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IMedicineRecommendationRepository, MedicineRecommendationRepository>();
+builder.Services.AddScoped<IMedicineRecommendationService, MedicineRecommendationService>();
 
 var app = builder.Build();
 

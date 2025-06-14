@@ -1,0 +1,127 @@
+@model PsyNet.Web.Models.ViewModels.AddPatientViewModel
+
+@{
+    ViewData["Title"] = "Medicine Recommendation AI";
+}
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>Medicine Recommendation AI</h1>
+        <p class="lead">Enter patient information to get AI-powered medicine recommendations</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="bi bi-robot"></i> Patient Information Form</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-controller="MedicineAI" asp-action="Recommend">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Age" class="form-label">Patient Age *</label>
+                                <input asp-for="Age" class="form-control" type="number" min="0" max="150" placeholder="Enter age">
+                                <span asp-validation-for="Age" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Sex" class="form-label">Sex *</label>
+                                <select asp-for="Sex" class="form-select">
+                                    <option value="">Select sex</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <span asp-validation-for="Sex" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PatientName" class="form-label">Patient Name (Optional)</label>
+                            <input asp-for="PatientName" class="form-control" placeholder="Enter patient name for reference">
+                            <span asp-validation-for="PatientName" class="text-danger"></span>
+                        </div>                        <div class="mb-4">
+                            <label asp-for="Condition" class="form-label">Medical Condition *</label>
+                            <select asp-for="Condition" class="form-select mb-2">
+                                <option value="">Select a condition</option>
+                                <option value="Depression">Depression</option>
+                                <option value="Anxiety">Anxiety</option>
+                                <option value="Bipolar Disorder">Bipolar Disorder</option>
+                                <option value="Schizophrenia">Schizophrenia</option>
+                                <option value="ADHD">ADHD</option>
+                                <option value="OCD">OCD</option>
+                                <option value="PTSD">PTSD</option>
+                                <option value="Panic Disorder">Panic Disorder</option>
+                                <option value="Social Anxiety">Social Anxiety</option>
+                                <option value="Insomnia">Insomnia</option>
+                            </select>
+                            <div class="mb-2">
+                                <small class="text-muted">Or describe a custom condition:</small>
+                            </div>
+                            <textarea asp-for="Condition" class="form-control" rows="3" 
+                                placeholder="Describe the medical condition, symptoms, or diagnosis..."></textarea>
+                            <span asp-validation-for="Condition" class="text-danger"></span>
+                            <div class="form-text">Please provide as much detail as possible about the condition for accurate recommendations.</div>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i>
+                            <strong>Important:</strong> This AI recommendation system is for informational purposes only. 
+                            Always consult with a qualified healthcare professional before making any medical decisions.
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Back to Home
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-robot"></i> Get AI Recommendation
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-lightbulb"></i> How it works</h5>
+                        <ol class="mb-0">
+                            <li>Enter patient information including age, sex, and medical condition</li>
+                            <li>Our AI analyzes the information using medical knowledge databases</li>
+                            <li>Receive personalized medicine recommendations with dosage and instructions</li>
+                            <li>View and manage all your saved patients and their recommendations</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function() {
+            // Handle condition selection
+            $('select[name="Condition"]').change(function() {
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    $('textarea[name="Condition"]').val(selectedValue);
+                }
+            });
+            
+            // Clear dropdown when textarea is manually edited
+            $('textarea[name="Condition"]').on('input', function() {
+                if ($(this).val() && $('select[name="Condition"]').val()) {
+                    $('select[name="Condition"]').val('');
+                }
+            });
+        });
+    </script>
+}
