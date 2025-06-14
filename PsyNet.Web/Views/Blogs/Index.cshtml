@@ -19,24 +19,19 @@
 				<div class="d-flex justify-content-between mb-3">
 					<span class="text-secondary">@Model.Author</span>
 					<span class="text-secondary">@Model.PublishedDate.ToShortDateString()</span>
-				</div>
-
-				<div class="mb-3">
+				</div>				<div class="mb-3">
 					@if (SignInManager.IsSignedIn(User))
 					{	
-						if(Model.Liked)
-						{
-							<a style="cursor: pointer;">
-								<i class="bi bi-heart-fill"></i>
-							</a>
-						}
-						else
-						{
-							<a id="btnLike" style="cursor: pointer;">
+						<a id="btnLike" style="cursor: pointer;" data-liked="@Model.Liked.ToString().ToLower()">
+							@if(Model.Liked)
+							{
+								<i class="bi bi-heart-fill text-danger"></i>
+							}
+							else
+							{
 								<i class="bi bi-heart"></i>
-							</a>
-						}
-						
+							}
+						</a>
 					}
 					<span id="totalLikes">@Model.TotalLikes</span> likes
 				</div>
@@ -148,42 +143,65 @@
 
 @section Scripts {
 	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-	
-	<script>
+		<script>
 		const btnLikeElement = document.getElementById('btnLike');
-		const totalLikeElement = document.getElementById('totalLikes')
+		const totalLikeElement = document.getElementById('totalLikes');
 
-		async function getTotalLikes(){
-			fetch('/api/blogpostlike/@Model.Id/totalLikes',{
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					'Accept':'*/*'
-				}
-			})
-				.then(data => data.json())
-				.then(result => totalLikeElement.innerHTML = result);
-		}
+		if (btnLikeElement) {
+			let isLiked = btnLikeElement.getAttribute('data-liked') === 'true';
 
-		async function addLikeForBlog() {
-			fetch('/api/BlogPostLike/Add', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'Accept': '*/*'
-				},
-				body: JSON.stringify({blogPostId: '@Model.Id', 
-				userId: '@userManager.GetUserId(User)'
+			async function getTotalLikes(){
+				fetch('/api/blogpostlike/@Model.Id/totalLikes',{
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'Accept':'*/*'
+					}
 				})
-			}).then(() => {
-				btnLikeElement.innerHTML = '<i class="bi bi-heart-fill"></i>';
-				btnLikeElement.removeEventListener('click', addLikeForBlog);
-				getTotalLikes();
-			});
-			
-		}
+					.then(data => data.json())
+					.then(result => totalLikeElement.innerHTML = result);
+			}
 
-		btnLikeElement.addEventListener('click', addLikeForBlog);
+			async function toggleLike() {
+				const url = isLiked ? '/api/BlogPostLike/Remove' : '/api/BlogPostLike/Add';
+				const method = isLiked ? 'DELETE' : 'POST';
+
+				try {
+					const response = await fetch(url, {
+						method: method,
+						headers: {
+							'Content-Type': 'application/json',
+							'Accept': '*/*'
+						},
+						body: JSON.stringify({
+							blogPostId: '@Model.Id', 
+							userId: '@userManager.GetUserId(User)'
+						})
+					});
+
+					if (response.ok) {
+						// Toggle the like state
+						isLiked = !isLiked;
+						btnLikeElement.setAttribute('data-liked', isLiked.toString());
+
+						// Update the icon
+						const icon = btnLikeElement.querySelector('i');
+						if (isLiked) {
+							icon.className = 'bi bi-heart-fill text-danger';
+						} else {
+							icon.className = 'bi bi-heart';
+						}
+
+						// Update the total likes count
+						await getTotalLikes();
+					}
+				} catch (error) {
+					console.error('Error toggling like:', error);
+				}
+			}
+
+			btnLikeElement.addEventListener('click', toggleLike);
+		}
 
 	</script>
 }

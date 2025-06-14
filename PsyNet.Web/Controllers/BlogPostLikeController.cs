@@ -15,9 +15,7 @@ namespace PsyNet.Web.Controllers
         public BlogPostLikeController(IBlogPostLikeRepository blogPostLikeRepository)
         {
             this.blogPostLikeRepository = blogPostLikeRepository;
-        }
-
-        [HttpPost]
+        }        [HttpPost]
         [Route("Add")]
         public async Task<IActionResult> AddLike([FromBody] AddLikeRequest addLikeRequest)
         {
@@ -31,6 +29,15 @@ namespace PsyNet.Web.Controllers
 
             return Ok();
 
+        }
+
+        [HttpDelete]
+        [Route("Remove")]
+        public async Task<IActionResult> RemoveLike([FromBody] AddLikeRequest removeLikeRequest)
+        {
+            await blogPostLikeRepository.RemoveLikeForBlog(removeLikeRequest.BlogPostId, removeLikeRequest.UserId);
+
+            return Ok();
         }
 
         [HttpGet]

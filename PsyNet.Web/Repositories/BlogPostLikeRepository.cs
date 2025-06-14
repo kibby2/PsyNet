@@ -22,12 +22,25 @@ namespace PsyNet.Web.Repositories
         public async Task<IEnumerable<BlogPostLike>> GetLikesForBlog(Guid blogPostId)
         {
             return await psyNetDbContext.BlogPostLike.Where(x => x.BlogPostId == blogPostId).ToListAsync();
-        }
-
-        public async Task<int> GetTotalLikes(Guid blogPostId)
+        }        public async Task<int> GetTotalLikes(Guid blogPostId)
         {
             return await psyNetDbContext.BlogPostLike
                 .CountAsync(x => x.BlogPostId == blogPostId);
+        }
+
+        public async Task<BlogPostLike?> RemoveLikeForBlog(Guid blogPostId, Guid userId)
+        {
+            var like = await psyNetDbContext.BlogPostLike
+                .FirstOrDefaultAsync(x => x.BlogPostId == blogPostId && x.UserId == userId);
+
+            if (like != null)
+            {
+                psyNetDbContext.BlogPostLike.Remove(like);
+                await psyNetDbContext.SaveChangesAsync();
+                return like;
+            }
+
+            return null;
         }
     }
 }

@@ -9,5 +9,7 @@ namespace PsyNet.Web.Repositories
         Task<IEnumerable<BlogPostLike>> GetLikesForBlog(Guid blogPostId);
 
         Task<BlogPostLike> AddLikeForBlog(BlogPostLike blogPostLike);
+
+        Task<BlogPostLike?> RemoveLikeForBlog(Guid blogPostId, Guid userId);
     }
 }

@@ -19,11 +19,26 @@ namespace PsyNet.Web.Controllers
             this.blogPostRepository = blogPostRepository;
             this.tagRepository = tagRepository;
         }
-
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
+            const int pageSize = 3; // 3 blogs per page
+
             // getting all blogs
-            var blogPosts = await blogPostRepository.GetAllAsync();
+            var allBlogPosts = await blogPostRepository.GetAllAsync();
+
+            // Calculate pagination
+            var totalBlogs = allBlogPosts.Count();
+            var totalPages = (int)Math.Ceiling((double)totalBlogs / pageSize);
+
+            // Ensure page is within valid range
+            if (page < 1) page = 1;
+            if (page > totalPages && totalPages > 0) page = totalPages;
+
+            // Get blogs for current page
+            var blogPosts = allBlogPosts
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
 
             // get all tags
             var tags = await tagRepository.GetAllAsync();
@@ -31,7 +46,11 @@ namespace PsyNet.Web.Controllers
             var model = new HomeViewModel
             {
                 BlogPosts = blogPosts,
-                Tags = tags
+                Tags = tags,
+                CurrentPage = page,
+                TotalPages = totalPages,
+                TotalBlogs = totalBlogs,
+                PageSize = pageSize
             };
 
             return View(model);
