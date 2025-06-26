@@ -78,7 +78,6 @@ namespace PsyNet.Web.Repositories
 
             return null;
         }
-
         public async Task<IEnumerable<BlogPost>> GetBlogsByAuthorAsync(string authorName)
         {
             return await psyNetDbContext.BlogPosts
@@ -86,6 +85,22 @@ namespace PsyNet.Web.Repositories
                 .Include(x => x.Tags)
                 .OrderByDescending(x => x.PublishedDate)
                 .ToListAsync();
+        }
+
+        public async Task<bool> IsUrlHandleUniqueAsync(string urlHandle, Guid? excludeBlogId = null)
+        {
+            if (excludeBlogId.HasValue)
+            {
+                // When updating a blog, exclude the current blog from the check
+                return !await psyNetDbContext.BlogPosts
+                    .AnyAsync(x => x.UrlHandle == urlHandle && x.Id != excludeBlogId);
+            }
+            else
+            {
+                // When adding a new blog
+                return !await psyNetDbContext.BlogPosts
+                    .AnyAsync(x => x.UrlHandle == urlHandle);
+            }
         }
     }
 }

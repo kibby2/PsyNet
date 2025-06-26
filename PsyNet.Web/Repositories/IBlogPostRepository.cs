@@ -11,5 +11,6 @@ namespace PsyNet.Web.Repositories
         Task<BlogPost?> UpdateAsync(BlogPost blogPost);
         Task<BlogPost?> DeleteAsync(Guid id);
         Task<IEnumerable<BlogPost>> GetBlogsByAuthorAsync(string authorName);
+        Task<bool> IsUrlHandleUniqueAsync(string urlHandle, Guid? excludeBlogId = null);
     }
 }

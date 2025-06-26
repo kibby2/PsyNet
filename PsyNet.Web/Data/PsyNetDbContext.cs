@@ -25,11 +25,10 @@ namespace PsyNet.Web.Data
         public DbSet<Patient> Patients { get; set; }
 
         public DbSet<MedicineRecommendation> MedicineRecommendations { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
+
             // Configure Patient entity relationships
             modelBuilder.Entity<Patient>()
                 .HasMany(p => p.Recommendations)
@@ -41,6 +40,12 @@ namespace PsyNet.Web.Data
             modelBuilder.Entity<CommentReport>()
                 .HasIndex(cr => new { cr.CommentId, cr.ReporterUserId })
                 .IsUnique(); // Prevent duplicate reports from same user for same comment
+
+            // Add unique constraint to BlogPost UrlHandle
+            modelBuilder.Entity<BlogPost>()
+                .HasIndex(b => b.UrlHandle)
+                .IsUnique()
+                .HasFilter("[UrlHandle] IS NOT NULL"); // To allow null values
         }
     }
 }

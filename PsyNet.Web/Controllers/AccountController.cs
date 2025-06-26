@@ -20,12 +20,27 @@ namespace PsyNet.Web.Controllers
         {
             return View();
         }
-
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
             if (ModelState.IsValid)
             {
+                // Check if username already exists
+                var existingUserByUsername = await userManager.FindByNameAsync(registerViewModel.Username);
+                if (existingUserByUsername != null)
+                {
+                    ModelState.AddModelError("Username", "Username is already taken. Please choose a different one.");
+                    return View(registerViewModel);
+                }
+
+                // Check if email already exists
+                var existingUserByEmail = await userManager.FindByEmailAsync(registerViewModel.Email);
+                if (existingUserByEmail != null)
+                {
+                    ModelState.AddModelError("Email", "Email is already registered. Please use a different email or try logging in.");
+                    return View(registerViewModel);
+                }
+
                 var identityUser = new ApplicationUser
                 {
                     UserName = registerViewModel.Username,
@@ -42,13 +57,23 @@ namespace PsyNet.Web.Controllers
                     if (roleIdentityResult.Succeeded)
                     {
                         // Show success notification
-                        return RedirectToAction("Register");
+                        TempData["NotificationMessage"] = "Registration successful! You can now log in.";
+                        TempData["NotificationType"] = "success";
+                        return RedirectToAction("Login");
+                    }
+                }
+                else
+                {
+                    // Add all the identity errors to the ModelState
+                    foreach (var error in identityResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
             }
 
             // Show error notification
-            return View();
+            return View(registerViewModel);
         }
 
         [HttpGet]

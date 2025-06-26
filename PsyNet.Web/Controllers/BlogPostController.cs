@@ -42,15 +42,26 @@ namespace PsyNet.Web.Controllers
         {
             // Set current date & author
             addBlogPostRequest.PublishedDate = DateTime.Today;
-            addBlogPostRequest.Author = User.Identity.Name ?? "Unknown";
-
-            if (!ModelState.IsValid)
+            addBlogPostRequest.Author = User.Identity.Name ?? "Unknown"; if (!ModelState.IsValid)
             {
                 // Reload tags for the dropdown
                 var tags = await tagRepository.GetAllAsync();
                 addBlogPostRequest.Tags = tags.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
                 return View(addBlogPostRequest);
-            }            // Map view model to domain model
+            }
+            // Check if URL handle is already in use
+            if (addBlogPostRequest.UrlHandle != null &&
+                !await blogPostRepository.IsUrlHandleUniqueAsync(addBlogPostRequest.UrlHandle))
+            {
+                ModelState.AddModelError("UrlHandle", "This URL handle is already in use. Please choose a different one.");
+
+                // Reload tags for the dropdown
+                var tags = await tagRepository.GetAllAsync();
+                addBlogPostRequest.Tags = tags.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+                return View(addBlogPostRequest);
+            }
+
+            // Map view model to domain model
             var blogPost = new BlogPost
             {
                 Heading = addBlogPostRequest.Heading,
@@ -58,7 +69,7 @@ namespace PsyNet.Web.Controllers
                 Content = addBlogPostRequest.Content,
                 ShortDescription = addBlogPostRequest.ShortDescription,
                 FeaturedImageUrl = addBlogPostRequest.FeaturedImageUrl,
-                UrlHandle = addBlogPostRequest.UrlHandle,
+                UrlHandle = addBlogPostRequest.UrlHandle ?? string.Empty,
                 PublishedDate = addBlogPostRequest.PublishedDate,
                 Author = addBlogPostRequest.Author,
                 Visible = true // Default to visible since field is removed from form
@@ -141,7 +152,21 @@ namespace PsyNet.Web.Controllers
                 var tags = await tagRepository.GetAllAsync();
                 editBlogPostRequest.Tags = tags.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
                 return View(editBlogPostRequest);
-            }            // Map view model to domain model
+            }
+
+            // Check if URL handle is already in use by another blog post
+            if (editBlogPostRequest.UrlHandle != null &&
+                !await blogPostRepository.IsUrlHandleUniqueAsync(editBlogPostRequest.UrlHandle, editBlogPostRequest.Id))
+            {
+                ModelState.AddModelError("UrlHandle", "This URL handle is already in use by another blog post. Please choose a different one.");
+
+                // Reload tags for the dropdown
+                var tags = await tagRepository.GetAllAsync();
+                editBlogPostRequest.Tags = tags.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+                return View(editBlogPostRequest);
+            }
+
+            // Map view model to domain model
             var blogPostDomainModel = new BlogPost
             {
                 Id = editBlogPostRequest.Id,
@@ -150,7 +175,7 @@ namespace PsyNet.Web.Controllers
                 Content = editBlogPostRequest.Content,
                 ShortDescription = editBlogPostRequest.ShortDescription,
                 FeaturedImageUrl = editBlogPostRequest.FeaturedImageUrl,
-                UrlHandle = editBlogPostRequest.UrlHandle,
+                UrlHandle = editBlogPostRequest.UrlHandle ?? string.Empty,
                 PublishedDate = editBlogPostRequest.PublishedDate,
                 Author = editBlogPostRequest.Author,
                 Visible = true, // Default to visible since field is removed from form
@@ -213,13 +238,11 @@ namespace PsyNet.Web.Controllers
         public async Task<IActionResult> UserBlogs()
         {
             // Check if user is authenticated
-            if (!User.Identity.IsAuthenticated)
+            if (User.Identity == null || !User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Account");
-            }
-
-            // Get current username
-            var currentUsername = User.Identity.Name;
+            }            // Get current username
+            var currentUsername = User.Identity?.Name ?? "Unknown";
 
             // Get blogs by this author
             var userBlogs = await blogPostRepository.GetBlogsByAuthorAsync(currentUsername);
