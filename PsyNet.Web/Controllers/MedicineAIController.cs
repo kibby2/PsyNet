@@ -152,7 +152,6 @@ namespace PsyNet.Web.Controllers
                     Condition = patient.Condition,
                     PatientName = patient.PatientName,
                     CreatedAt = patient.CreatedAt,
-                    UpdatedAt = patient.UpdatedAt,
                     Recommendations = patient.Recommendations.Select(r => new MedicineRecommendationViewModel
                     {
                         Id = r.Id,
@@ -160,7 +159,6 @@ namespace PsyNet.Web.Controllers
                         Dosage = r.Dosage,
                         Frequency = r.Frequency,
                         Instructions = r.Instructions,
-                        ConfidenceScore = r.ConfidenceScore,
                         RecommendationSource = r.RecommendationSource,
                         CreatedAt = r.CreatedAt,
                         IsActive = r.IsActive

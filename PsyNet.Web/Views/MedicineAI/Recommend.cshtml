@@ -25,9 +25,11 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label asp-for="Age" class="form-label">Patient Age *</label>
-                                <input asp-for="Age" class="form-control" type="number" min="0" max="150" placeholder="Enter age">
+                                <input asp-for="Age" class="form-control" type="number" min="0" max="150"
+                                    placeholder="Enter age">
                                 <span asp-validation-for="Age" class="text-danger"></span>
-                            </div>                            <div class="col-md-6 mb-3">
+                            </div>
+                            <div class="col-md-6 mb-3">
                                 <label asp-for="Sex" class="form-label">Sex *</label>
                                 <select asp-for="Sex" class="form-select">
                                     <option value="">Select sex</option>
@@ -40,35 +42,202 @@
 
                         <div class="mb-3">
                             <label asp-for="PatientName" class="form-label">Patient Name (Optional)</label>
-                            <input asp-for="PatientName" class="form-control" placeholder="Enter patient name for reference">
+                            <input asp-for="PatientName" class="form-control"
+                                placeholder="Enter patient name for reference">
                             <span asp-validation-for="PatientName" class="text-danger"></span>
-                        </div>                        <div class="mb-4">
+                        </div>
+                        <div class="mb-4">
                             <label asp-for="Condition" class="form-label">Medical Condition *</label>
-                            <select asp-for="Condition" class="form-select mb-2">
+                            <select asp-for="Condition" class="form-select">
                                 <option value="">Select a condition</option>
+                                <option value="A Feeling of Restlessness with Inability to Sit Still">A Feeling of
+                                    Restlessness with Inability to Sit Still</option>
+                                <option value="A Rare Developmental Disorder of Infants">A Rare Developmental Disorder
+                                    of Infants</option>
+                                <option value="Acute Repetitive Seizures">Acute Repetitive Seizures</option>
+                                <option value="Additional Agent to Induce General Anesthesia">Additional Agent to Induce
+                                    General Anesthesia</option>
+                                <option value="Additional Medication for Calming">Additional Medication for Calming
+                                </option>
+                                <option value="Additional Medication for Myoclonic Epilepsy">Additional Medication for
+                                    Myoclonic Epilepsy</option>
+                                <option value="Additional Medications to Treat Depression">Additional Medications to
+                                    Treat Depression</option>
+                                <option value="Additional Medications to Treat Pain">Additional Medications to Treat
+                                    Pain</option>
+                                <option value="adjunct therapy for obsessive compulsive disorder">adjunct therapy for
+                                    obsessive compulsive disorder</option>
+                                <option value="Aggressive Behavior">Aggressive Behavior</option>
+                                <option value="Agitation associated with Schizophrenia">Agitation associated with
+                                    Schizophrenia</option>
+                                <option value="Allergic Conjunctivitis">Allergic Conjunctivitis</option>
+                                <option value="Anorexia Nervosa">Anorexia Nervosa</option>
+                                <option value="Anxiety associated with an Operation">Anxiety associated with an
+                                    Operation</option>
+                                <option value="Anxious">Anxious</option>
+                                <option value="Anxiousness associated with Depression">Anxiousness associated with
+                                    Depression</option>
+                                <option value="Apprehension">Apprehension</option>
+                                <option value="Attention Deficit Disorder with Hyperactivity">Attention Deficit Disorder
+                                    with Hyperactivity</option>
+                                <option value="Bedwetting">Bedwetting</option>
+                                <option value="Behaving with Excessive Cheerfulness and Activity">Behaving with
+                                    Excessive Cheerfulness and Activity</option>
+                                <option value="Binge Eating Disorder">Binge Eating Disorder</option>
+                                <option value="Bipolar Depression">Bipolar Depression</option>
+                                <option value="Bipolar Disorder in Remission">Bipolar Disorder in Remission</option>
+                                <option value="Bipolar I Disorder with Most Recent Episode Mixed">Bipolar I Disorder
+                                    with Most Recent Episode Mixed</option>
+                                <option value="Brief Episode of Schizophrenia with Rapid Onset">Brief Episode of
+                                    Schizophrenia with Rapid Onset</option>
+                                <option value="Brief Muscle Spasms in an Infant">Brief Muscle Spasms in an Infant
+                                </option>
+                                <option value="Bulimia">Bulimia</option>
+                                <option value="Calming of Pediatric Patient by Administration of Sedative">Calming of
+                                    Pediatric Patient by Administration of Sedative</option>
+                                <option value="Chronic Muscle or Bone Pain">Chronic Muscle or Bone Pain</option>
+                                <option value="Chronic Trouble Sleeping">Chronic Trouble Sleeping</option>
+                                <option value="Chronic Type of Schizophrenia">Chronic Type of Schizophrenia</option>
+                                <option value="Cluster Headache Prevention">Cluster Headache Prevention</option>
+                                <option value="Combative and Explosive Behavior">Combative and Explosive Behavior
+                                </option>
+                                <option value="Convulsive Seizures">Convulsive Seizures</option>
+                                <option value="Delirium">Delirium</option>
+                                <option value="Depressed Mood Disorder Occurring Every Year at the Same Time">Depressed
+                                    Mood Disorder Occurring Every Year at the Same Time</option>
                                 <option value="Depression">Depression</option>
-                                <option value="Anxiety">Anxiety</option>
-                                <option value="Bipolar Disorder">Bipolar Disorder</option>
-                                <option value="Schizophrenia">Schizophrenia</option>
-                                <option value="ADHD">ADHD</option>
-                                <option value="OCD">OCD</option>
-                                <option value="PTSD">PTSD</option>
+                                <option value="Depression associated with Bipolar Disorder">Depression associated with
+                                    Bipolar Disorder</option>
+                                <option value="Depression following Delivery of Baby">Depression following Delivery of
+                                    Baby</option>
+                                <option value="Diabetic Complication causing Injury to some Body Nerves">Diabetic
+                                    Complication causing Injury to some Body Nerves</option>
+                                <option value="Disorder characterized by Stiff">Disorder characterized by Stiff</option>
+                                <option value="Epileptic Seizure">Epileptic Seizure</option>
+                                <option value="Essential Tremor">Essential Tremor</option>
+                                <option value="Extreme Apprehension or Fear of Social Interaction">Extreme Apprehension
+                                    or Fear of Social Interaction</option>
+                                <option value="Extreme Discomfort in Calves when Sitting or Lying Down">Extreme
+                                    Discomfort in Calves when Sitting or Lying Down</option>
+                                <option value="Facial Nerve Pain">Facial Nerve Pain</option>
+                                <option value="Feel Like Throwing Up">Feel Like Throwing Up</option>
+                                <option value="Feeling of Apprehension Before an Operation">Feeling of Apprehension
+                                    Before an Operation</option>
+                                <option value="Feeling Restless">Feeling Restless</option>
+                                <option value="Frequent Headaches">Frequent Headaches</option>
+                                <option value="Generalized Attack of Muscular Weakness">Generalized Attack of Muscular
+                                    Weakness</option>
+                                <option value="Heart Ventricle Rhythm Problem">Heart Ventricle Rhythm Problem</option>
+                                <option value="Hiccups that are Hard to Cure">Hiccups that are Hard to Cure</option>
+                                <option value="High Blood Pressure">High Blood Pressure</option>
+                                <option value="Hives">Hives</option>
+                                <option value="Induce Temporary Amnesia">Induce Temporary Amnesia</option>
+                                <option value="Inducing of a Relaxed Easy State">Inducing of a Relaxed Easy State
+                                </option>
+                                <option value="Inflammation of Skin caused by an Allergy">Inflammation of Skin caused by
+                                    an Allergy</option>
+                                <option value="Inflammation of the Nose due to an Allergy">Inflammation of the Nose due
+                                    to an Allergy</option>
+                                <option value="Involuntary Quivering">Involuntary Quivering</option>
+                                <option value="Irritable Colon">Irritable Colon</option>
+                                <option value="Itching">Itching</option>
+                                <option value="Life Threatening Allergic Reaction">Life Threatening Allergic Reaction
+                                </option>
+                                <option value="Major Depressive Disorder">Major Depressive Disorder</option>
+                                <option value="Mania associated with Bipolar Disorder">Mania associated with Bipolar
+                                    Disorder</option>
+                                <option value="Manic">Manic</option>
+                                <option value="Mental Disorder with Loss of Normal Personality">Mental Disorder with
+                                    Loss of Normal Personality</option>
+                                <option value="Migraine Prevention">Migraine Prevention</option>
+                                <option value="Mitral Valve Prolapse Syndrome">Mitral Valve Prolapse Syndrome</option>
+                                <option value="Multiple Seizure Types">Multiple Seizure Types</option>
+                                <option value="Muscle Spasm">Muscle Spasm</option>
+                                <option value="Muscle Weakness associated with Sleeping Disease">Muscle Weakness
+                                    associated with Sleeping Disease</option>
+                                <option value="Myocardial Reinfarction Prevention">Myocardial Reinfarction Prevention
+                                </option>
+                                <option value="Nausea and Vomiting">Nausea and Vomiting</option>
+                                <option value="Nausea and Vomiting caused by Cancer Drugs">Nausea and Vomiting caused by
+                                    Cancer Drugs</option>
+                                <option value="Nerve Pain">Nerve Pain</option>
+                                <option value="Nerve Pain after Herpes">Nerve Pain after Herpes</option>
+                                <option value="Nerve Pain of Tongue and Throat from 9th Cranial Nerve">Nerve Pain of
+                                    Tongue and Throat from 9th Cranial Nerve</option>
+                                <option value="Neuropathic Pain">Neuropathic Pain</option>
+                                <option value="Nicotine Addiction">Nicotine Addiction</option>
+                                <option value="Obsessive Compulsive Disorder">Obsessive Compulsive Disorder</option>
+                                <option value="Osteoporosis">Osteoporosis</option>
+                                <option value="Other">Other</option>
+                                <option value="Over Excitement">Over Excitement</option>
+                                <option value="Overweight">Overweight</option>
                                 <option value="Panic Disorder">Panic Disorder</option>
-                                <option value="Social Anxiety">Social Anxiety</option>
-                                <option value="Insomnia">Insomnia</option>
+                                <option value="Paroxysmal Choreoathetosis">Paroxysmal Choreoathetosis</option>
+                                <option value="Pervasive Developmental Disorder">Pervasive Developmental Disorder
+                                </option>
+                                <option value="Petit Mal Epilepsy with Multiple Seizure Types">Petit Mal Epilepsy with
+                                    Multiple Seizure Types</option>
+                                <option value="Petit Mal Seizures">Petit Mal Seizures</option>
+                                <option value="Posttraumatic Stress Syndrome">Posttraumatic Stress Syndrome</option>
+                                <option value="Premature Ejection of Semen">Premature Ejection of Semen</option>
+                                <option value="Premenstrual Disorder with a State of Unhappiness">Premenstrual Disorder
+                                    with a State of Unhappiness</option>
+                                <option value="Prevent Nausea and Vomiting from Cancer Chemotherapy">Prevent Nausea and
+                                    Vomiting from Cancer Chemotherapy</option>
+                                <option value="Prevention of Seizures following Head Injury or Surgery">Prevention of
+                                    Seizures following Head Injury or Surgery</option>
+                                <option value="Problem Behavior">Problem Behavior</option>
+                                <option value="Problems with Bladder Control">Problems with Bladder Control</option>
+                                <option value="Psychosis associated with Alzheimer">Psychosis associated with Alzheimer
+                                </option>
+                                <option value="Psychosis caused by a Disease">Psychosis caused by a Disease</option>
+                                <option value="Psychosis caused by a Drug">Psychosis caused by a Drug</option>
+                                <option value="Psychosis caused by Sudden Alcohol Withdrawal">Psychosis caused by Sudden
+                                    Alcohol Withdrawal</option>
+                                <option value="Psychotic Depressive Illness">Psychotic Depressive Illness</option>
+                                <option value="Rapid Cycle Manic">Rapid Cycle Manic</option>
+                                <option value="Recurring Sleep Episodes During the Day">Recurring Sleep Episodes During
+                                    the Day</option>
+                                <option value="Repeated Episodes of Anxiety">Repeated Episodes of Anxiety</option>
+                                <option value="Runny Nose">Runny Nose</option>
+                                <option value="Schizophrenia">Schizophrenia</option>
+                                <option value="Schizophrenia With Mood Changes">Schizophrenia With Mood Changes</option>
+                                <option value="Sedation with Ability to Respond to Stimulation or Speech">Sedation with
+                                    Ability to Respond to Stimulation or Speech</option>
+                                <option value="Seizure with Loss of Normal Tone or Strength">Seizure with Loss of Normal
+                                    Tone or Strength</option>
+                                <option value="Seizures with Breaks in Consciousness">Seizures with Breaks in
+                                    Consciousness</option>
+                                <option value="Seizures with Irregular Muscle Contractions">Seizures with Irregular
+                                    Muscle Contractions</option>
+                                <option value="Severe Anxiety">Severe Anxiety</option>
+                                <option value="Severe Itching">Severe Itching</option>
+                                <option value="Simple Partial Seizures">Simple Partial Seizures</option>
+                                <option value="Sleep Disturbance with Extreme Anxiety">Sleep Disturbance with Extreme
+                                    Anxiety</option>
+                                <option value="Sneezing">Sneezing</option>
+                                <option value="Stop Smoking">Stop Smoking</option>
+                                <option value="Stuffy Nose">Stuffy Nose</option>
+                                <option value="Symptoms from Alcohol Withdrawal">Symptoms from Alcohol Withdrawal
+                                </option>
+                                <option value="Symptoms from Stopping Treatment with Opioid Drugs">Symptoms from
+                                    Stopping Treatment with Opioid Drugs</option>
+                                <option value="Tension Headache">Tension Headache</option>
+                                <option value="Tonic">Tonic</option>
+                                <option value="Tourette">Tourette</option>
+                                <option value="Ulcer from Stomach Acid">Ulcer from Stomach Acid</option>
+                                <option value="Ventricular Premature Beats">Ventricular Premature Beats</option>
+                                <option value="Welt from Pressure on Skin">Welt from Pressure on Skin</option>
                             </select>
-                            <div class="mb-2">
-                                <small class="text-muted">Or describe a custom condition:</small>
-                            </div>
-                            <textarea asp-for="Condition" class="form-control" rows="3" 
-                                placeholder="Describe the medical condition, symptoms, or diagnosis..."></textarea>
                             <span asp-validation-for="Condition" class="text-danger"></span>
-                            <div class="form-text">Please provide as much detail as possible about the condition for accurate recommendations.</div>
+                            <div class="form-text">Select a condition from the dropdown menu for AI-powered
+                                recommendations.</div>
                         </div>
 
                         <div class="alert alert-info">
                             <i class="bi bi-info-circle"></i>
-                            <strong>Important:</strong> This AI recommendation system is for informational purposes only. 
+                            <strong>Important:</strong> This AI recommendation system is for informational purposes
+                            only.
                             Always consult with a qualified healthcare professional before making any medical decisions.
                         </div>
 
@@ -103,22 +272,16 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script>
-        $(document).ready(function() {
-            // Handle condition selection
-            $('select[name="Condition"]').change(function() {
-                var selectedValue = $(this).val();
-                if (selectedValue) {
-                    $('textarea[name="Condition"]').val(selectedValue);
-                }
-            });
-            
-            // Clear dropdown when textarea is manually edited
-            $('textarea[name="Condition"]').on('input', function() {
-                if ($(this).val() && $('select[name="Condition"]').val()) {
-                    $('select[name="Condition"]').val('');
-                }
-            });
-        });
-    </script>
 }
+
+   
+   
+   
+
+   
+
+   
+
+   
+   
+   

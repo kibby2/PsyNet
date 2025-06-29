@@ -44,7 +44,13 @@ builder.Services.AddScoped<IBlogReportRepository, BlogReportRepository>();
 builder.Services.AddScoped<ICommentReportRepository, CommentReportRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IMedicineRecommendationRepository, MedicineRecommendationRepository>();
-builder.Services.AddScoped<IMedicineRecommendationService, MedicineRecommendationService>();
+
+// Add HttpClient for AI service
+builder.Services.AddHttpClient<IMedicineRecommendationService, AIMedicineRecommendationService>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(30); // 30 second timeout for AI requests
+});
+
 builder.Services.AddScoped<IProfilePictureService, ProfilePictureService>();
 
 // Add claims transformation to include roles

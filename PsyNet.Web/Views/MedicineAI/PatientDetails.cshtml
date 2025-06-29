@@ -47,11 +47,6 @@
                             <i class="bi bi-calendar"></i> Created: @Model.CreatedAt.ToString("MMM dd, yyyy HH:mm")
                         </small>
                     </div>
-                    <div class="mb-3">
-                        <small class="text-muted">
-                            <i class="bi bi-pencil"></i> Updated: @Model.UpdatedAt.ToString("MMM dd, yyyy HH:mm")
-                        </small>
-                    </div>
                 </div>                <div class="card-footer">
                     <div class="d-flex gap-2">
                         <a asp-controller="MedicineAI" asp-action="SavedPatients" class="btn btn-secondary btn-sm">
@@ -94,12 +89,6 @@
                                         else
                                         {
                                             <span class="badge bg-secondary">Inactive</span>
-                                        }
-                                        @if (recommendation.ConfidenceScore > 0)
-                                        {
-                                            <span class="badge bg-info">
-                                                Confidence: @recommendation.ConfidenceScore.ToString("F1")/10
-                                            </span>
                                         }
                                     </div>
                                 </div>

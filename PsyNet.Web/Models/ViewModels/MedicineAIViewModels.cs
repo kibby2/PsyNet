@@ -14,7 +14,6 @@ namespace PsyNet.Web.Models.ViewModels
 
         [Required]
         [Display(Name = "Medical Condition")]
-        [StringLength(500, ErrorMessage = "Condition description cannot exceed 500 characters")]
         public string Condition { get; set; } = string.Empty;
 
         [Display(Name = "Patient Name (Optional)")]
@@ -30,7 +29,6 @@ namespace PsyNet.Web.Models.ViewModels
         public string Condition { get; set; } = string.Empty;
         public string? PatientName { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
         public List<MedicineRecommendationViewModel> Recommendations { get; set; } = new();
     }
 
@@ -41,7 +39,6 @@ namespace PsyNet.Web.Models.ViewModels
         public string? Dosage { get; set; }
         public string? Frequency { get; set; }
         public string? Instructions { get; set; }
-        public double ConfidenceScore { get; set; }
         public string? RecommendationSource { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsActive { get; set; }
