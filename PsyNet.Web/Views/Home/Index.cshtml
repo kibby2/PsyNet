@@ -28,30 +28,30 @@
 </div>
 
 <!-- Medicine Recommendation AI Section -->
-<div class="container py-4 bg-light rounded-3 mb-5">
+<div class="container py-4 bg-dark text-white rounded-3 mb-5">
 	<div class="row justify-content-center text-center">
 		<div class="col-12">
-			<h2 class="mb-3">Medicine Recommendation AI</h2>
-			<p class="lead mb-4">
+			<h2 class="mb-3 text-white">Medicine Recommendation AI</h2>
+			<p class="lead mb-4 text-white">
 				Enter your patient's age, sex, and condition to get suggested medication!
 			</p>
 			<div class="d-flex justify-content-center gap-3">
 				@if (SignInManager.IsSignedIn(User))
 				{
-					<a class="btn btn-primary btn-lg px-4" asp-controller="MedicineAI" asp-action="Recommend">
+					<a class="btn btn-light text-dark btn-lg px-4" asp-controller="MedicineAI" asp-action="Recommend">
 						<i class="bi bi-robot"></i> Try now
 					</a>
-					<a class="btn btn-outline-dark btn-lg px-4" asp-controller="MedicineAI" asp-action="SavedPatients">
+					<a class="btn btn-outline-light btn-lg px-4" asp-controller="MedicineAI" asp-action="SavedPatients">
 						<i class="bi bi-person-lines-fill"></i> View saved patients
 					</a>
 				}
 				else
 				{
-					<a class="btn btn-primary btn-lg px-4" asp-controller="Account" asp-action="Login"
+					<a class="btn btn-light text-dark btn-lg px-4" asp-controller="Account" asp-action="Login"
 						asp-route-ReturnUrl="/MedicineAI/Recommend">
 						<i class="bi bi-robot"></i> Try now
 					</a>
-					<a class="btn btn-outline-dark btn-lg px-4" asp-controller="Account" asp-action="Login"
+					<a class="btn btn-outline-light btn-lg px-4" asp-controller="Account" asp-action="Login"
 						asp-route-ReturnUrl="/MedicineAI/SavedPatients">
 						<i class="bi bi-person-lines-fill"></i> View saved patients
 					</a>
@@ -84,32 +84,33 @@
 					</span>
 				}
 			}
+
 		</div>
 	</div>
 
 </div>
 
-<div class="container">
+<div class="container mt-5">
 	<div class="row justify-content-center">
 		<div class="col-6">
 			@if (Model != null && Model.BlogPosts.Any())
 			{
 				foreach (var blogPost in Model.BlogPosts)
 				{
-					<div class="mb-5 bg-light box-shadow p-5"> @if (!string.IsNullOrEmpty(blogPost.FeaturedImageUrl))
+					<div class="mb-5 bg-dark text-white box-shadow p-5"> @if (!string.IsNullOrEmpty(blogPost.FeaturedImageUrl))
 						{
 							<img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading" class="mb-2 d-block img-fluid" />
 						}
 								else
 						{
-							<div class="mb-2 d-block img-fluid bg-light text-center py-4 border rounded">
-								<i class="bi bi-image fs-3 text-muted"></i>
-								<p class="text-muted mt-2 mb-0 small">No Image Available</p>
+							<div class="mb-2 d-block img-fluid bg-secondary text-center py-4 border rounded">
+								<i class="bi bi-image fs-3 text-light"></i>
+								<p class="text-light mt-2 mb-0 small">No Image Available</p>
 							</div>
 						}
 
-						<h2 class="mb-4">@blogPost.Heading</h2>
-						<p class="mb-4">
+						<h2 class="mb-4 text-white">@blogPost.Heading</h2>
+						<p class="mb-4 text-white">
 							Author: @blogPost.Author
 							<br />
 							Published Date: @blogPost.PublishedDate.ToShortDateString()
@@ -122,9 +123,9 @@
 							}
 						</p>
 
-						<p class="mb-4">@blogPost.ShortDescription</p>
+						<p class="mb-4 text-white">@blogPost.ShortDescription</p>
 
-						<a class="btn btn-dark" asp-area="" asp-controller="Blogs" asp-action="Index"
+						<a class="btn btn-light text-dark" asp-area="" asp-controller="Blogs" asp-action="Index"
 							asp-route-urlHandle="@blogPost.UrlHandle">Read More</a>
 					</div>
 
