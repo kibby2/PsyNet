@@ -118,5 +118,61 @@ namespace PsyNet.Web.Controllers
 
             //wow-fit 12345 kt aditiy
         }
+
+        [HttpGet]
+        public async Task<IActionResult> CheckTagNameExists(string tagName)
+        {
+            if (string.IsNullOrWhiteSpace(tagName))
+            {
+                return Json(false);
+            }
+
+            var tags = await tagRepository.GetAllAsync();
+            var exists = tags.Any(t => t.Name.Equals(tagName, StringComparison.OrdinalIgnoreCase));
+
+            return Json(exists);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CheckDisplayNameExists(string displayName)
+        {
+            if (string.IsNullOrWhiteSpace(displayName))
+            {
+                return Json(false);
+            }
+
+            var tags = await tagRepository.GetAllAsync();
+            var exists = tags.Any(t => t.DisplayName.Equals(displayName, StringComparison.OrdinalIgnoreCase));
+
+            return Json(exists);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CheckTagNameExistsForEdit(string tagName, Guid currentTagId)
+        {
+            if (string.IsNullOrWhiteSpace(tagName))
+            {
+                return Json(false);
+            }
+
+            var tags = await tagRepository.GetAllAsync();
+            var exists = tags.Any(t => t.Name.Equals(tagName, StringComparison.OrdinalIgnoreCase) && t.Id != currentTagId);
+
+            return Json(exists);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CheckDisplayNameExistsForEdit(string displayName, Guid currentTagId)
+        {
+            if (string.IsNullOrWhiteSpace(displayName))
+            {
+                return Json(false);
+            }
+
+            var tags = await tagRepository.GetAllAsync();
+            var exists = tags.Any(t => t.DisplayName.Equals(displayName, StringComparison.OrdinalIgnoreCase) && t.Id != currentTagId);
+
+            return Json(exists);
+        }
     }
 }

@@ -38,11 +38,107 @@
 </div>
 
 <script>
-    document.getElementById("tagName").addEventListener("input", function (e) {
+    const tagNameInput = document.getElementById("tagName");
+    const displayNameInput = document.getElementById("displayName");
+    const submitBtn = document.querySelector("button[type='submit']");
+
+    // Check for spaces in TagName
+    tagNameInput.addEventListener("input", function (e) {
         if (e.target.value.includes(" ")) {
             alert("Spaces are not allowed in the Name field.");
             e.target.value = e.target.value.replace(/\s/g, "");
         }
+        checkTagNameExists(e.target.value);
     });
+
+    // Check DisplayName when user finishes typing
+    displayNameInput.addEventListener("blur", function (e) {
+        checkDisplayNameExists(e.target.value);
+    });
+
+    async function checkTagNameExists(tagName) {
+        if (!tagName || tagName.trim() === "") {
+            clearValidationMessage("tagName");
+            return;
+        }
+
+        try {
+            const response = await fetch(`/AdminTags/CheckTagNameExists?tagName=${encodeURIComponent(tagName)}`);
+            const exists = await response.json();
+
+            if (exists) {
+                showValidationMessage("tagName", "This tag name already exists.");
+                disableSubmit();
+            } else {
+                clearValidationMessage("tagName");
+                enableSubmitIfValid();
+            }
+        } catch (error) {
+            console.error("Error checking tag name:", error);
+        }
+    }
+
+    async function checkDisplayNameExists(displayName) {
+        if (!displayName || displayName.trim() === "") {
+            clearValidationMessage("displayName");
+            return;
+        }
+
+        try {
+            const response = await fetch(`/AdminTags/CheckDisplayNameExists?displayName=${encodeURIComponent(displayName)}`);
+            const exists = await response.json();
+
+            if (exists) {
+                showValidationMessage("displayName", "This display name already exists.");
+                disableSubmit();
+            } else {
+                clearValidationMessage("displayName");
+                enableSubmitIfValid();
+            }
+        } catch (error) {
+            console.error("Error checking display name:", error);
+        }
+    }
+
+    function showValidationMessage(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        let errorSpan = field.parentElement.querySelector(".validation-error");
+
+        if (!errorSpan) {
+            errorSpan = document.createElement("span");
+            errorSpan.className = "text-danger validation-error";
+            field.parentElement.appendChild(errorSpan);
+        }
+
+        errorSpan.textContent = message;
+        field.classList.add("is-invalid");
+    }
+
+    function clearValidationMessage(fieldId) {
+        const field = document.getElementById(fieldId);
+        const errorSpan = field.parentElement.querySelector(".validation-error");
+
+        if (errorSpan) {
+            errorSpan.remove();
+        }
+
+        field.classList.remove("is-invalid");
+    }
+
+    function disableSubmit() {
+        submitBtn.disabled = true;
+        submitBtn.classList.add("btn-secondary");
+        submitBtn.classList.remove("btn-dark");
+    }
+
+    function enableSubmitIfValid() {
+        const hasErrors = document.querySelectorAll(".validation-error").length > 0;
+
+        if (!hasErrors) {
+            submitBtn.disabled = false;
+            submitBtn.classList.add("btn-dark");
+            submitBtn.classList.remove("btn-secondary");
+        }
+    }
 
 </script>
