@@ -116,7 +116,7 @@ namespace PsyNet.Web.Controllers
             return RedirectToAction("Edit", new { id = editTagRequest.Id });
 
 
-            //wow-fit 12345 kt aditiy
+
         }
 
         [HttpGet]
